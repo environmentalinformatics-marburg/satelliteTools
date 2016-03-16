@@ -39,25 +39,26 @@ setMethod("pca",
           signature(x = "Satellite"), 
           function(x, bcde, prfx=NULL, ...){
             
-            pcs <- pca(stack(getSatDataLayers(x, bcde = bcde)), ...)
+            act <- pca(stack(getSatDataLayers(x, bcde = bcde)), ...)
             
-            meta_param <- getSatMeta(x, act_bcde[1])
+            meta_param <- getSatMeta(x, bcde[1])
             
             if(is.null(prfx)){
-              meta_bcde <- paste0(act_bcde, "_", names(pcs$map))
+              meta_bcde <- paste0(bcde[1], "_", names(act$map))
             } else {
-              meta_bcde <- paste0(prfx, "_", names(pcs$map))
+              meta_bcde <- paste0(prfx, "_", names(act$map))
             }
             
+            meta_param[, 6:ncol(meta_param)] <- NA
             meta_param <- 
               meta_param[rep(seq_len(nrow(meta_param)), each = length(meta_bcde)),]
-            meta_param$CALIB <- "PCA"
-            
+            meta_param$TYPE <- "PCA"
+
             info <- sys.calls()[[1]]
-            info <- paste0(pcs$model)
-            x <- addSatDataLayer(x, bcde = meta_bcde, data = txtrs, 
+            info <- act$model
+            x <- addSatDataLayer(x, bcde = meta_bcde, data = act$map, 
                                  meta_param = meta_param,
-                                 info = info, in_bcde = act_bcde)
+                                 info = info, in_bcde = bcde[1])
           return(x)
           })
 
@@ -69,7 +70,7 @@ setMethod("pca",
 setMethod("pca", 
           signature(x = "RasterStack"), 
           function(x, ...){
-            RStoolbox::rasterPCA(x, ...)
+            x <- RStoolbox::rasterPCA(x, ...)
             return(x)
           })
 

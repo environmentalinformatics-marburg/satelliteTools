@@ -41,19 +41,20 @@ setMethod("imageTextures",
           signature(x = "Satellite"), 
           function(x, bcde, mask=NULL, ...){
             for(act_bcde in bcde){
-              txtrs <- imageTextures(getSatDataLayer(x, act_bcde), 
+              act <- imageTextures(getSatDataLayer(x, act_bcde), 
                                      mask = mask, ...)
               
               meta_param <- getSatMeta(x, act_bcde)
-              meta_bcde <- paste0(act_bcde, "_", names(txtrs))
+              meta_bcde <- paste0(act_bcde, "_", names(act))
               
+              meta_param[, 6:ncol(meta_param)] <- NA
               meta_param <- 
                 meta_param[rep(seq_len(nrow(meta_param)), each = length(meta_bcde)),]
-              meta_param$CALIB <- "IT"
+              meta_param$TYPE <- "IT"
               
               info <- sys.calls()[[1]]
               info <- paste0("Compute image texture based on ", act_bcde)
-              x <- addSatDataLayer(x, bcde = meta_bcde, data = txtrs, 
+              x <- addSatDataLayer(x, bcde = meta_bcde, data = act, 
                                    meta_param = meta_param,
                                    info = info, in_bcde = act_bcde)
             }
@@ -85,9 +86,8 @@ setMethod("imageTextures",
 setMethod("imageTextures", 
           signature(x = "RasterLayer"), 
           function(x, mask=NULL, ...){
-            xtmp <- x
             if (!is.null(mask)){
-              xtmp <- raster::mask(x, mask)
+              x <- raster::mask(x, mask)
             }
             x <- glcm::glcm(x, ...)
             return(x)
