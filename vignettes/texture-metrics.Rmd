@@ -1,0 +1,36 @@
+---
+title: "Compute image texture metrics"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The following example shows how to compute image texture metrics from Landsat 8 
+data downloaded from the [USGS Earth Explorer](http://earthexplorer.usgs.gov/).
+
+
+## Reading Landast 8 data
+
+We will use the test data set supplied with this package. In order to read the
+data set, just supply the filename (or list of filenames) to the `satellite()`
+function.
+
+```{r}
+library(satellite)
+path <- system.file("extdata", package = "satellite")
+files <- list.files(path, pattern = glob2rx("LC8*.TIF"), full.names = TRUE)
+sat <- satellite(files)
+```
+
+
+## Calculate image metrics
+
+Image metrics will be calculated using wrapper functions for the glcm package
+developed by Alex Zvoleff.
+```{r}
+imageTextures(sat, bcde = "B003n", window = c(5,5), statistics = "mean")
+```
