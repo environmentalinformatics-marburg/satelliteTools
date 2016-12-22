@@ -6,6 +6,8 @@
 #' @export stPCA
 #'
 #' @examples
+#' \dontrun{
+#' }
 stPCA <- function(sat, ...){
   
   mtrx <- as.matrix(stack(satellite::getSatDataLayers(sat)))

@@ -1,0 +1,50 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r}
+if(Sys.info()["sysname"] == "Windows"){
+  filepath_base <- "D:/active/moc/msc-phygeo-remote-sensing-2016/"
+} else {
+  filepath_base <- "/media/permanent/active/moc/msc-phygeo-remote-sensing-2016/"
+}
+
+path_data <- paste0(filepath_base, "data/")
+path_aerial <- paste0(path_data, "aerial/")
+path_aerial_merged <- paste0(path_data, "aerial_merged/")
+path_aerial_croped <- paste0(path_data, "aerial_croped/")
+path_aerial_final <- paste0(path_data, "aerial_final/")
+path_aerial_aggregated <- paste0(path_data, "aerial_aggregated/")
+path_landcover <- paste0(path_data, "landcover/")
+path_landcover_training_areas <- paste0(path_data, "landcover/training_areas/")
+path_rdata <- paste0(path_data, "RData/")
+path_scripts <- paste0(filepath_base, "scripts/msc-phygeo-remote-sensing/src/functions/")
+path_temp <- paste0(filepath_base, "temp/")
+library(raster)
+library(rgdal)
+library(sp)
+
+rasterOptions(tmpdir = path_temp)
+
+rgb <- stack(paste0(path_aerial_aggregated, "geonode_muf_merged_001m.tif"))
+vi <- raster(paste0(path_aerial_aggregated, "muf_merged_001m_visible_vegetation_index.tif"))
+rm <- raster(paste0(path_aerial_aggregated, "geonode_muf_merged_001m_redness_index_mean_21.tif"))
+x <- stack(rgb, vi, rm)
+
+poly <- readOGR(paste0(path_landcover_training_areas, "muf_training_final.shp"),
+              "muf_training_final")
+
+data <- sampleRasterFromPolygons(x, poly, nbr = 50)
+
+writeOGR(data, paste0(path_landcover, "muf_training_data.shp"), "muf_training_data",
+         driver = "ESRI Shapefile", overwrite_layer = TRUE)
+saveRDS(data, file = paste0(path_rdata, "muf_training_data.RDS"))
+```

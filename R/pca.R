@@ -23,11 +23,13 @@ if ( !isGeneric("pca") ) {
 #' @references None.
 #' 
 #' @examples
+#' \dontrun{
 #' path <- system.file("extdata", package = "satellite")
 #' files <- list.files(path, pattern = glob2rx("LC8*.TIF"), full.names = TRUE)
 #' sat <- satellite(files)
 #' 
 #' sat <- pca(sat, bcde = "B004n")
+#' }
 NULL
 
 

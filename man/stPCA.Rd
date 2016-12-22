@@ -15,4 +15,8 @@ a raster::stack of the indices
 \description{
 Compute principal component analysis
 }
+\examples{
+\dontrun{
+}
+}
 

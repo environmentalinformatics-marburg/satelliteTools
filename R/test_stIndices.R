@@ -6,6 +6,8 @@
 #' @export stIndices
 #'
 #' @examples
+#' \dontrun{
+#' }
 stIndices <- function(sat, ...){
   
   cppFunction('List be_re_indices_cpp(NumericVector blue, NumericVector green, NumericVector red, NumericVector re, NumericVector nir){

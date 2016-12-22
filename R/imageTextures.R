@@ -25,11 +25,13 @@ if ( !isGeneric("imageTextures") ) {
 #' @references None.
 #' 
 #' @examples
+#' \dontrun{
 #' path <- system.file("extdata", package = "satellite")
 #' files <- list.files(path, pattern = glob2rx("LC8*.TIF"), full.names = TRUE)
 #' sat <- satellite(files)
 #' 
 #' sat <- imageTextures(sat, bcde = "B004n")
+#' }
 NULL
 
 

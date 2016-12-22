@@ -12,14 +12,11 @@
 \S4method{pca}{RasterStack}(x, ...)
 }
 \arguments{
-\item{x}{Satellite object, raster stack or raster layer.}
+\item{x}{Satellite object or raster stack.}
 
-\item{bcde}{Band code(s) to be used for computing the image textures}
+\item{bcde}{Band code(s) to be used for computing the pca}
 
-\item{...}{Further arguments passed on to \code{\link{glcm::glcm}}}
-
-\item{mask}{raster layer with the same geometry as x with NA values at
-positions where image textures should not be computed.}
+\item{...}{Further arguments passed on to \code{\link{RStoolbox::rasterPCA}}}
 }
 \value{
 If x is a Satellite object, a Satellite object with added image
@@ -34,11 +31,13 @@ The method is a wrapper for of glcm:glcm by A. Zvoleff
 (see \url{https://cran.r-project.org/web/packages/glcm/index.html})
 }
 \examples{
+\dontrun{
 path <- system.file("extdata", package = "satellite")
 files <- list.files(path, pattern = glob2rx("LC8*.TIF"), full.names = TRUE)
 sat <- satellite(files)
 
 sat <- pca(sat, bcde = "B004n")
+}
 }
 \references{
 None.

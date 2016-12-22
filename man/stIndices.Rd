@@ -15,4 +15,8 @@ a raster::stack of the indices
 \description{
 Compute spectral remote sensing pixel-based indices
 }
+\examples{
+\dontrun{
+}
+}
 
