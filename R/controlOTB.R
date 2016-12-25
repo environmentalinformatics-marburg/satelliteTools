@@ -36,21 +36,20 @@ getOutputDir<- function (outDir){
 #'}
 
 
-setOTBEnv <- function(defaultOtb = "C:\\OSGeo4W64\\bin",installationRoot="C:\\OSGeo4W64"){
+setOTBEnv <- function(defaultOTBPath = "C:\\OSGeo4W64\\bin",installationRoot="C:\\OSGeo4W64"){
   
   if (substr(Sys.getenv("COMPUTERNAME"),1,5)=="PCRZP") {
-    defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
+    defaultOTBPath <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
     installationRoot <- shQuote("C:\\Program Files\\QGIS 2.14")
     Sys.setenv(GEOTIFF_CSV=paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GlobalEnv)
     
   } else {
     
     # (R) set pathes  of otb modules and binaries depending on OS  
-    
     if(Sys.info()["sysname"] == "Windows"){
       
-      makGlobalVar("otbPath", defaultOtb)
-      add2Path(defaultOtb)
+      makGlobalVar(name="otbPath", value=defaultOTBPath)
+      add2Path(newPath = defaultOTBPath)
       Sys.setenv(OSGEO4W_ROOT=installationRoot)
       Sys.setenv(GEOTIFF_CSV=paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GlobalEnv)
       
@@ -58,7 +57,7 @@ setOTBEnv <- function(defaultOtb = "C:\\OSGeo4W64\\bin",installationRoot="C:\\OS
       makGlobalVar("otbPath", "(usr/bin/")
     }
   }
-  return(defaultOtb)
+  return(defaultOTBPath)
 }
 
 
@@ -72,13 +71,11 @@ setOTBEnv <- function(defaultOtb = "C:\\OSGeo4W64\\bin",installationRoot="C:\\OS
 #' @examples 
 #'\dontrun{
 #'}
-
-
 searchOSgeo4WOTB <- function(DL = "C:"){
   
   
   if (substr(Sys.getenv("COMPUTERNAME"),1,5)=="PCRZP") {
-    defaultOtb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
+    defaultOTBPath <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
     otbInstallations<- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installationType = "osgeo4wOTB",stringsAsFactors = FALSE)
     Sys.setenv(GEOTIFF_CSV=paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GlobalEnv)
     
@@ -130,3 +127,51 @@ searchOSgeo4WOTB <- function(DL = "C:"){
   return(otbInstallations)
 }
 
+
+#'Assign variable in .GlobalEnv
+#'@description  Assign variable in .GlobalEnv
+#'@param name Variable name
+#'@param value Value of varaible
+#'@return NONE
+#'@author Chris Reudenbach
+#'@name makGlobalVar
+#'@export makGlobalVar
+#' @examples 
+#'\dontrun{
+#'}
+makGlobalVar <- function(name,value) {
+  if(exists(name, envir = .GlobalEnv)) {
+    warning(paste0("The variable '", name,"' already exist in .GlobalEnv"))
+    assign(name, value, envir = .GlobalEnv, inherits = TRUE)
+  } else {
+    assign(name, value, envir = .GlobalEnv, inherits = TRUE)
+  } 
+}
+
+
+#'Add a variable to the system path
+#'@description Add a variable to the system path
+#'@param newPath Path to be added
+#'@return NONE
+#'@author Chris Reudenbach
+#'@name add2Path
+#'@export add2Path
+#' @examples 
+#'\dontrun{
+#'}
+add2Path<- function(newPath) {
+  exist<-FALSE
+  if(Sys.info()["sysname"] == "Windows"){
+    del<-";"  
+  } else {
+    del<-":"  
+  } 
+  p <- Sys.getenv("PATH")
+  if(substr(p, 1,nchar(newPath)) == newPath){
+    exist <- TRUE
+  }
+  # if not exist append path to systempath
+  if (!exist){
+    Sys.setenv(PATH=paste0(newPath,del,Sys.getenv("PATH")))
+  }
+}

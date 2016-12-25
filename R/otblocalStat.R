@@ -9,16 +9,16 @@
 #' @param retRaster boolean if TRUE a raster stack is returned
 #' @param verbose switch for system messages default is FALSE
 #' @author Chris Reudenbach
-#' @export otblocalStat
+#' @export otbLocalStat
 #' @examples 
 #' \dontrun{
 #' url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
 #' res <- curl::curl_download(url, "testdata.zip")
 #' unzip(res,junkpaths = TRUE,overwrite = TRUE)
-#' otblocalStat(input=paste0(getwd(),"4490600_5321400.tif"),radius=5)
+#' otbLocalStat(input=paste0(getwd(),"4490600_5321400.tif"),radius=5)
 #' }
 
-otblocalStat<- function(input=NULL,
+otbLocalStat<- function(input=NULL,
                         out="localStat",
                         ram="8192",
                         radius=3,
