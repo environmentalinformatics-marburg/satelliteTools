@@ -1,13 +1,13 @@
-#' Tile \code(Raster*) object based on \code(Spatial*) object
+#' Tile \code{Raster*} object based on \code{Spatial*} object
 #'
 #' @description
-#' Tile \code(raster*) object based on \code(Spatial*) object using an optional 
+#' Tile \code{Raster*} object based on \code{Spatial*} object using an optional 
 #' buffer.
 #'
-#' @param raster \code(Raster*) object
-#' @param spatial \code(Spatial*) object
+#' @param raster \code{Raster*} object
+#' @param spatial \code{Spatial*} object
 #' @param buffer Buffer size (default NULL does not use buffer)
-#' @param byid Parameter of \code(gBuffer) which is used in case a buffer should
+#' @param byid Parameter of \code{gBuffer} which is used in case a buffer should
 #' be computed.
 #'
 #' @return

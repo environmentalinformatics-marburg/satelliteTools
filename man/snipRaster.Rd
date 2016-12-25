@@ -2,18 +2,18 @@
 % Please edit documentation in R/snipRaster.R
 \name{snipRaster}
 \alias{snipRaster}
-\title{Tile \code(Raster*) object based on \code(Spatial*) object}
+\title{Tile \code{Raster*} object based on \code{Spatial*} object}
 \usage{
 snipRaster(raster, spatial, buffer = NULL, byid = TRUE)
 }
 \arguments{
-\item{raster}{\code(Raster*) object}
+\item{raster}{\code{Raster*} object}
 
-\item{spatial}{\code(Spatial*) object}
+\item{spatial}{\code{Spatial*} object}
 
 \item{buffer}{Buffer size (default NULL does not use buffer)}
 
-\item{byid}{Parameter of \code(gBuffer) which is used in case a buffer should
+\item{byid}{Parameter of \code{gBuffer} which is used in case a buffer should
 be computed.}
 }
 \value{
@@ -21,7 +21,7 @@ A list of \code{Raster*} objects with one object per vector within variable
 spatial.
 }
 \description{
-Tile \code(raster*) object based on \code(Spatial*) object using an optional 
+Tile \code{Raster*} object based on \code{Spatial*} object using an optional 
 buffer.
 }
 \examples{

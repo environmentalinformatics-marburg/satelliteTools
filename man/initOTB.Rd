@@ -4,12 +4,12 @@
 \alias{initOTB}
 \title{getOTB setup the orfeo toolbox bindings for an rsession}
 \usage{
-initOTB(defaultOTBPathPath = NULL,
-  installationRoot = paste0(dirname(defaultOTBPathPath), "/"),
-  otbType = NULL, DL = "C:")
+initOTB(defaultOTBPath = NULL,
+  installationRoot = paste0(dirname(defaultOTBPath), "/"), otbType = NULL,
+  DL = "C:")
 }
 \arguments{
-\item{defaultOTBPathPath}{string contains path to otb binaries}
+\item{defaultOTBPath}{string contains path to otb binaries}
 
 \item{DL}{hard drive letter}
 }
