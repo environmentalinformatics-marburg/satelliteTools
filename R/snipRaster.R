@@ -6,6 +6,9 @@
 #'
 #' @param raster \code{Raster*} object
 #' @param spatial \code{Spatial*} object
+#' @param selector Selector variable, if not NULL, only one raster tile per 
+#' unique value of the selector variable is created (e.g. if one has multiple
+#' observations per single geographical location).
 #' @param buffer Buffer size (default NULL does not use buffer)
 #' @param byid Parameter of \code{gBuffer} which is used in case a buffer should
 #' be computed.
@@ -27,12 +30,19 @@
 #' @export snipRaster
 #' @name snipRaster
 #'
-snipRaster <- function(raster, spatial, buffer = NULL, byid = TRUE)
-  plots <- lapply(seq(length(spatial)), function(s){
-    spt <- spatial[s,]
+snipRaster <- function(raster, spatial, selector = NULL, buffer = NULL, 
+                       byid = TRUE){
+  if(!is.null(selector)){
+    spatial <- spatial[!duplicated(spatial@data[, selector]),]
+  }
+  lspt <- length(spatial)
+  plots <- lapply(seq(lspt), function(i){
+    if(i %% 10 == 0) print(paste0("Processing ", i, " of ", lspt))
+    spt <- spatial[i,]
     if(!is.null(buffer)){
       spt <- gBuffer(spt, width = buffer, byid = byid)
     }
     plot <- crop(raster, spt)
     return(plot)
   })
+}

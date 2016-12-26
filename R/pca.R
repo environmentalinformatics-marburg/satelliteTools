@@ -39,7 +39,7 @@ NULL
 #'
 setMethod("pca", 
           signature(x = "Satellite"), 
-          function(x, bcde, prfx=NULL, ...){
+          function(x, bcde, prfx=NULL, retRaster = FALSE, ...){
             
             act <- pca(stack(getSatDataLayers(x, bcde = bcde)), ...)
             
@@ -71,8 +71,11 @@ setMethod("pca",
 #'
 setMethod("pca", 
           signature(x = "RasterStack"), 
-          function(x, ...){
+          function(x, retRaster = FALSE, ...){
             x <- RStoolbox::rasterPCA(x, ...)
+            if(retRaster){
+              x <- x$map
+            }
             return(x)
           })
 

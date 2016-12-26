@@ -1,7 +1,12 @@
+if ( !isGeneric("pca") ) {
+  setGeneric("pca", function(x, ...)
+    standardGeneric("pca"))
+}
 #' Calculate selected texture parameters on gray level properties
 #' 
 #' @note the otb is used for filtering. please provide a GeoTiff file
-#' @param input GeoTiff containing 1 or more gray value bands
+#' @param input A \code{Raster*} object or a GeoTiff containing 1 or more gray 
+#' value bands
 #' @param out string pattern vor individual naming of the output file(s)
 #' @param parameters.xyrad list with the x and y radius in pixel indicating the kernel sizes for which the textures are calculated
 #' @param parameters.xyoff  vector containg the directional offsets. Valid combinations are: list(c(1,1),c(1,0),c(0,1),c(1,-1))
@@ -17,7 +22,7 @@
 #' @return A list of RasterStacks containing the texture parameters for each 
 #' combination of channel and filter  
 
-#' @author Chris Reudenbach
+#' @author Chris Reudenbach, Thomas Nauss
 #' @note More information at the texture tutorial site of
 #' \link{http://www.fp.ucalgary.ca/mhallbey/more_informaton.htm}(Mryka Hall-Beyer)
 #' Keep in mind that:\cr
@@ -38,27 +43,79 @@
 #' unzip(res,junkpaths = TRUE,overwrite = TRUE)
 #' otbHaraTex(input=paste0(getwd(),"4490600_5321400.tif"),texture="simple")
 #' }
+NULL
+
+
+# Function using satellite object ----------------------------------------------
+#' 
+#' @rdname pca
+#'
+setMethod("otbHaraTex", 
+          signature(x = "RasterStack"), 
+          function(input,
+                   outDir=NULL,
+                   retRaster=TRUE,
+                   ram="8192",
+                   parameters.xyrad=list(c(1,1)),
+                   parameters.xyoff=list(c(1,1)),
+                   parameters.minmax=c(0,255),
+                   parameters.nbbin=8,
+                   texture="advanced",
+                   channel=NULL,
+                   verbose=FALSE){
+            directory <- getOutputDir(outDir)
+            writeRaster(input, file = paste0(tmpDir, "tmp.tif"), overwrite = TRUE)
+            input <- paste0(tmpDir, "tmp.tif")
+            tempout <- Sys.time()
+            retStack <- otbHaraTex(input = input,
+                                   out = tempout,
+                                   outDir = directory,
+                                   retRaster = TRUE,
+                                   parameters.xyrad = parameters.xyrad,
+                                   parameters.xyoff = parameters.xyoff,
+                                   parameters.minmax = parameters.minmax,
+                                   parameters.nbbin = parameters.nbbin,
+                                   texture = texture,
+                                   channel = channel,
+                                   verbose = verbose,
+                                   ram = ram)
+            file.remove(input)
+            tmpfiles <- list.files(directory, 
+                                   pattern = glob2rx(paste0("*", tempout, "*")),
+                                   full.names = TRUE)
+            file.remove(tmpfiles)
+            return(retStack)
+          })
+          
+            
+
+
 
 otbHaraTex<- function(input=NULL,
                       out="hara",
-                      ram="8192",
+                      outDir=NULL,
+                      retRaster=FALSE,
                       parameters.xyrad=list(c(1,1)),
                       parameters.xyoff=list(c(1,1)),
                       parameters.minmax=c(0,255),
                       parameters.nbbin=8,
                       texture="advanced",
                       channel=NULL,
-                      retRaster=FALSE,
-                      outDir=NULL,
-                      verbose=FALSE){
+                      verbose=FALSE,
+                      ram="8192"){
   
   # check and create output directories
   directory<-getOutputDir(outDir)
-  
+
   # initialize the return raster stack
   retStack<-list()
+  
   # if no channel number is provided take all tif bands
-  if (is.null(channel)) channel<-seq(length(grep(gdalUtils::gdalinfo(input,nomd = TRUE),pattern = "Band ")))
+  if (is.null(channel)){
+    channel <- seq(length(grep(gdalUtils::gdalinfo(input,nomd = TRUE),
+                               pattern = "Band ")))
+  } 
+  
   # for each band do
   for (band in channel) {
     # the following filters
@@ -66,18 +123,11 @@ otbHaraTex<- function(input=NULL,
       for (xyoff in parameters.xyoff) {
         # generate the putputfilename
         outName<-paste0(directory,
-                        "band_",
-                        band,
-                        "_",
-                        out,
-                        "_",
-                        texture,
-                        "_",
-                        xyrad[1],
-                        xyrad[2],
-                        "_",
-                        xyoff[1],
-                        xyoff[2],
+                        "band_", band, "_", 
+                        out, "_",
+                        texture, "_",
+                        xyrad[1], xyrad[2], "_",
+                        xyoff[1], xyoff[2],
                         ".tif")
         # start otb command generation with the valid path to otbcli and the module name
         command<-paste0(otbPath,"otbcli_HaralickTextureExtraction")
@@ -101,7 +151,9 @@ otbHaraTex<- function(input=NULL,
         else{
           system(command[band],intern = TRUE,ignore.stdout = TRUE)}  
         # if you want to have a rasterstack returned do it
-        if (retRaster) retStack[[band]]<-assign(paste0(tools::file_path_sans_ext(basename(outName)),"band_",band),raster::stack(outName))
+        if (retRaster) retStack[[band]] <- 
+          assign(paste0(tools::file_path_sans_ext(basename(outName)),
+                        "band_",band),raster::stack(outName))
       }
     }
   }
