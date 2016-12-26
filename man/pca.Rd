@@ -7,9 +7,9 @@
 \alias{pca,Satellite-method}
 \title{Calculate image textures}
 \usage{
-\S4method{pca}{Satellite}(x, bcde, prfx = NULL, ...)
+\S4method{pca}{Satellite}(x, bcde, prfx = NULL, retRaster = FALSE, ...)
 
-\S4method{pca}{RasterStack}(x, ...)
+\S4method{pca}{RasterStack}(x, retRaster = FALSE, ...)
 }
 \arguments{
 \item{x}{Satellite object or raster stack.}

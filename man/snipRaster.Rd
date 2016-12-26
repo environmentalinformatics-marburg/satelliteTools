@@ -4,12 +4,16 @@
 \alias{snipRaster}
 \title{Tile \code{Raster*} object based on \code{Spatial*} object}
 \usage{
-snipRaster(raster, spatial, buffer = NULL, byid = TRUE)
+snipRaster(raster, spatial, selector = NULL, buffer = NULL, byid = TRUE)
 }
 \arguments{
 \item{raster}{\code{Raster*} object}
 
 \item{spatial}{\code{Spatial*} object}
+
+\item{selector}{Selector variable, if not NULL, only one raster tile per 
+unique value of the selector variable is created (e.g. if one has multiple
+observations per single geographical location).}
 
 \item{buffer}{Buffer size (default NULL does not use buffer)}
 
