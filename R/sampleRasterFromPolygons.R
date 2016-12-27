@@ -34,7 +34,7 @@ NULL
 
 # Function using satellite object ----------------------------------------------
 #' 
-#' @rdname imageTextures
+#' @rdname sampleRasterFromPolygons
 #'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "Satellite"), 
@@ -45,7 +45,7 @@ setMethod("sampleRasterFromPolygons",
 
 # Function using raster::RasterStack object ------------------------------------
 #' 
-#' @rdname imageTextures
+#' @rdname sampleRasterFromPolygons
 #'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "RasterStack"), 
@@ -83,7 +83,7 @@ setMethod("sampleRasterFromPolygons",
 #' 
 #' @param mask A \code{raster::RasterLayer} in which area of interest are marked
 #' with 1, NA otherwise. 
-#' @rdname imageTextures
+#' @rdname sampleRasterFromPolygons
 #'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "RasterLayer"), 
