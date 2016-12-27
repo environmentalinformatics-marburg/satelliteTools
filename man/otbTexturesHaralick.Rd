@@ -10,37 +10,34 @@
 \title{Calculate selected texture parameters on gray level properties (mainly after
 Haralick).}
 \usage{
-\S4method{otbTexturesHaralick}{RasterBrick}(x, path_output = NULL,
-  return_raster = TRUE, ram = "8192", parameters.xyrad = list(c(1, 1)),
-  parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
-  parameters.nbbin = 8, texture = "advanced", channel = NULL,
-  verbose = FALSE)
-
-\S4method{otbTexturesHaralick}{RasterLayer}(x, path_output = NULL,
-  return_raster = TRUE, ram = "8192", parameters.xyrad = list(c(1, 1)),
-  parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
-  parameters.nbbin = 8, texture = "advanced", channel = NULL,
-  verbose = FALSE)
-
-\S4method{otbTexturesHaralick}{RasterStack}(x, path_output = NULL,
-  return_raster = TRUE, ram = "8192", parameters.xyrad = list(c(1, 1)),
-  parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
-  parameters.nbbin = 8, texture = "advanced", channel = NULL,
-  verbose = FALSE)
-
-\S4method{otbTexturesHaralick}{character}(x, output_name = "hara",
-  path_output = NULL, return_raster = FALSE, parameters.xyrad = list(c(1,
+\S4method{otbTexturesHaralick}{RasterBrick}(x, texture = "all",
+  path_output = NULL, return_raster = TRUE, parameters.xyrad = list(c(1,
   1)), parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
-  parameters.nbbin = 8, texture = "advanced", channel = NULL,
+  parameters.nbbin = 8, channel = NULL, verbose = FALSE, ram = "8192")
+
+\S4method{otbTexturesHaralick}{RasterLayer}(x, texture = "all",
+  path_output = NULL, return_raster = TRUE, parameters.xyrad = list(c(1,
+  1)), parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
+  parameters.nbbin = 8, channel = NULL, verbose = FALSE, ram = "8192")
+
+\S4method{otbTexturesHaralick}{RasterStack}(x, texture = "all",
+  path_output = NULL, return_raster = TRUE, parameters.xyrad = list(c(1,
+  1)), parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
+  parameters.nbbin = 8, channel = NULL, verbose = FALSE, ram = "8192")
+
+\S4method{otbTexturesHaralick}{character}(x, texture = "all",
+  output_name = "hara", path_output = NULL, return_raster = FALSE,
+  parameters.xyrad = list(c(1, 1)), parameters.xyoff = list(c(1, 1)),
+  parameters.minmax = c(0, 255), parameters.nbbin = 8, channel = NULL,
   verbose = FALSE, ram = "8192")
 }
 \arguments{
 \item{x}{A \code{Raster*} object or a GeoTiff containing 1 or more gray 
 value bands}
 
-\item{return_raster}{boolean if TRUE a raster stack is returned}
+\item{texture}{type of filter "simple" "advanced" "higher"}
 
-\item{ram}{reserved memory in MB}
+\item{return_raster}{boolean if TRUE a raster stack is returned}
 
 \item{parameters.xyrad}{list with the x and y radius in pixel indicating the kernel sizes for which the textures are calculated}
 
@@ -50,11 +47,11 @@ value bands}
 
 \item{parameters.nbbin}{number of gray level bins (classes)}
 
-\item{texture}{type of filter "simple" "advanced" "higher"}
-
 \item{channel}{sequence of bands to be processed}
 
 \item{verbose}{switch for system messages default is FALSE}
+
+\item{ram}{reserved memory in MB}
 
 \item{output_name}{string pattern vor individual naming of the output file(s)}
 

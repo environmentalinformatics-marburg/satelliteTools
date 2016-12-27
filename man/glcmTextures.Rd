@@ -7,7 +7,7 @@
 glcmTextures(x, n_rasters = 1:nlayers(x), kernel_size = c(3),
   stats = c("mean", "variance", "homogeneity", "contrast", "dissimilarity",
   "entropy", "second_moment", "correlation"), shift = list(c(0, 1), c(1, 1),
-  c(1, 0), c(1, -1)), parallel = TRUE, n_grey = 8, min_x = NULL,
+  c(1, 0), c(1, -1)), parallel = TRUE, n_grey = 32, min_x = NULL,
   max_x = NULL)
 }
 \arguments{

@@ -68,7 +68,7 @@ setMethod("otbTexturesHaralick",
             writeRaster(x, file = paste0(path_output, "tmp.tif"), overwrite = TRUE)
             x <- paste0(path_output, "tmp.tif")
             tempout <- format(Sys.time(), "%Y-%m-%d-%H%M%S")
-            retStack <- otbTexturesHaralick(x = x,
+            ret_textures <- otbTexturesHaralick(x = x,
                                             texture = texture,
                                             output_name = tempout,
                                             path_output = path_output,
@@ -85,7 +85,7 @@ setMethod("otbTexturesHaralick",
                                    pattern = glob2rx(paste0("*", tempout, "*")),
                                    full.names = TRUE)
             file.remove(tmpfiles)
-            return(retStack)
+            return(ret_textures)
           })
 
 
@@ -106,7 +106,7 @@ setMethod("otbTexturesHaralick",
                    channel=NULL,
                    verbose=FALSE,
                    ram="8192"){
-            retStack <- otbTexturesHaralick(x = raster::brick(x),
+            ret_textures <- otbTexturesHaralick(x = raster::brick(x),
                                             texture = texture,
                                             path_output = path_output,
                                             return_raster = return_raster,
@@ -117,7 +117,7 @@ setMethod("otbTexturesHaralick",
                                             channel = channel,
                                             verbose = verbose,
                                             ram = ram)
-            return(retStack)
+            return(ret_textures)
           })
 
 
@@ -138,7 +138,7 @@ setMethod("otbTexturesHaralick",
                    channel=NULL,
                    verbose=FALSE,
                    ram="8192"){
-            retStack <- otbTexturesHaralick(x = raster::brick(x),
+            ret_textures <- otbTexturesHaralick(x = raster::brick(x),
                                             texture = texture,
                                             path_output = path_output,
                                             return_raster = return_raster,
@@ -149,7 +149,7 @@ setMethod("otbTexturesHaralick",
                                             channel = channel,
                                             verbose = verbose,
                                             ram = ram)
-            return(retStack)
+            return(ret_textures)
           })
 
 # Function using GeoTiff -------------------------------------------------------
@@ -171,87 +171,88 @@ setMethod("otbTexturesHaralick",
                    verbose=FALSE,
                    ram="8192"){
             
-            # initialize the return raster stack
-            retStack<-list()
-            
             if(texture == "all"){
               texture <- c("simple", "advanced", "higher")
             }
-            # if no channel number is provided take all tif bands
+            
             if (is.null(channel)){
               channel <- seq(length(grep(gdalUtils::gdalinfo(x,nomd = TRUE),
                                          pattern = "Band ")))
             } 
             
-            # for each band do
-            for (band in channel) {
-              # the following filters
-              for (xyrad in parameters.xyrad) {
-                for (xyoff in parameters.xyoff) {
-                  for (i in seq(length(texture))){
-                    txt <- texture[i]
-                    # generate the putputfilename
-                    output_name<-paste0(path_output,
-                                        "band_", band, "_", 
-                                        output_name, "_",
-                                        txt, "_",
-                                        xyrad[1], xyrad[2], "_",
-                                        xyoff[1], xyoff[2],
-                                        ".tif")
-                    # start otb command generation with the valid path to otbcli and the module name
-                    command<-paste0(otbPath,"otbcli_HaralickTextureExtraction")
-                    # now add all arguments
-                    command<-paste(command, " -in ", x)
-                    command<-paste(command, " -channel ", channel)
-                    command<-paste(command, " -out ", output_name)
-                    command<-paste(command, " -ram ",ram)
-                    command<-paste(command, " -parameters.xrad ",xyrad[1])
-                    command<-paste(command, " -parameters.yrad ",xyrad[2])
-                    command<-paste(command, " -parameters.xoff ",xyoff[1])
-                    command<-paste(command, " -parameters.yoff ",xyoff[2])
-                    command<-paste(command, " -parameters.min ",parameters.minmax[1])
-                    command<-paste(command, " -parameters.max ",parameters.minmax[2])
-                    command<-paste(command, " -parameters.nbbin ",parameters.nbbin)
-                    command<-paste(command, " -texture ",txt)
-                    # if verbose is true
+            ret_textures <- lapply(channel, function(band){
+              ret_textures <- lapply(parameters.xyrad, function(xyrad){
+                ret_textures <- lapply(parameters.xyoff, function(xyoff){
+                  ret_textures <- lapply(texture, function(txt){
+                    path_outfile <- paste0(path_output,
+                                           "band_", band, "_", 
+                                           output_name, "_",
+                                           txt, "_",
+                                           xyrad[1], xyrad[2], "_",
+                                           xyoff[1], xyoff[2],
+                                           ".tif")
+                    command<-paste0(otbPath,"otbcli_HaralickTextureExtraction",
+                                    " -in ", x,
+                                    " -channel ", band,
+                                    " -out ", path_outfile,
+                                    " -ram ",ram,
+                                    " -parameters.xrad ",xyrad[1]
+                                    , " -parameters.yrad ",xyrad[2]
+                                    , " -parameters.xoff ",xyoff[1]
+                                    , " -parameters.yoff ",xyoff[2]
+                                    , " -parameters.min ",parameters.minmax[1]
+                                    , " -parameters.max ",parameters.minmax[2]
+                                    , " -parameters.nbbin ",parameters.nbbin,
+                                    " -texture ",txt)
                     if (verbose) {
                       cat("\nrunning cmd:  ", command[band],"\n")
-                      system(command[band])
+                      system(command)
                     } else{
-                      system(command[band],intern = TRUE,ignore.stdout = TRUE)
-                    }  
-                    # if you want to have a rasterstack returned do it
+                      system(command,intern = TRUE,ignore.stdout = TRUE)
+                    }
                     if (return_raster){
                       if(txt == "simple"){
                         bnames <- c("Energy", "Entropy", "Correlation", 
-                                    "Inverse Difference Moment", "Inertia", 
-                                    "Cluster Shade", "Cluster Prominence",
-                                    "Haralick Correlation")
+                                    "Inverse_Difference_Moment", "Inertia", 
+                                    "Cluster_Shade", "Cluster_Prominence",
+                                    "Haralick_Correlation")
                       } else if(txt == "advanced"){
-                        bnames <- c("Mean", "Variance", "Sum Average", 
-                                    "Sum Variance", "Sum Entropy", 
-                                    "Difference of Entropies", 
-                                    "Difference of Variances", 
+                        bnames <- c("Mean", "Variance", "Dissimilarity",
+                                    "Sum_Average", 
+                                    "Sum_Variance", "Sum_Entropy", 
+                                    "Difference_of_Variances", 
+                                    "Difference_of_Entropies", 
                                     "IC1", "IC2")
                       } else if(txt == "higher"){
-                        bnames <- c("Short Run Emphasis", 
-                                    "Long Run Emphasis", 
-                                    "Grey-Level Nonuniformity", 
-                                    "Run Length Nonuniformity", 
-                                    "Run Percentage", 
-                                    "Low Grey-Level Run Emphasis", 
-                                    "High Grey-Level Run Emphasis", 
-                                    "Short Run Low Grey-Level Emphasis", 
-                                    "Short Run High Grey-Level Emphasis", 
-                                    "Long Run Low Grey-Level Emphasis",
-                                    "Long Run High Grey-Level Emphasis")
+                        bnames <- c("Short_Run_Emphasis", 
+                                    "Long_Run_Emphasis", 
+                                    "Grey-Level_Nonuniformity", 
+                                    "Run_Length_Nonuniformity", 
+                                    "Run_Percentage", 
+                                    "Low_Grey-Level_Run_Emphasis", 
+                                    "High_Grey-Level_Run_Emphasis", 
+                                    "Short_Run_Low_Grey-Level_Emphasis", 
+                                    "Short_Run_High_Grey-Level_Emphasis", 
+                                    "Long_Run_Low_Grey-Level_Emphasis",
+                                    "Long_Run_High_Grey-Level_Emphasis")
                       }
-                      retStack[[band]][[i]] <- raster::stack(output_name)
-                      names(retStack[[band]][[i]]) <- bnames
+                      ret_textures <- raster::stack(path_outfile)
+                      names(ret_textures) <- paste0(bnames, "-", 
+                                                    "b", band,
+                                                    "r", xyrad[1],
+                                                    "o", xyoff[1],
+                                                    "m", parameters.minmax[1],
+                                                    parameters.minmax[2])
+                    } else {
+                      ret_textures <- NULL
                     }
-                  }
-                }
-              }
-            }
-            return(retStack)
+                    return(ret_textures)
+                  })
+                  raster::stack(ret_textures)
+                })
+                raster::stack(ret_textures)
+              })
+              raster::stack(ret_textures)
+            })
+            raster::stack(ret_textures)
           })
