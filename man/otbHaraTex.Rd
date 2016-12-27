@@ -9,27 +9,27 @@
 \alias{otbHaraTex,character-method}
 \title{Calculate selected texture parameters on gray level properties}
 \usage{
-\S4method{otbHaraTex}{RasterBrick}(x, outDir = NULL, retRaster = TRUE,
-  ram = "8192", parameters.xyrad = list(c(1, 1)),
+\S4method{otbHaraTex}{RasterBrick}(x, path_output = NULL,
+  return_raster = TRUE, ram = "8192", parameters.xyrad = list(c(1, 1)),
   parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
   parameters.nbbin = 8, texture = "advanced", channel = NULL,
   verbose = FALSE)
 
-\S4method{otbHaraTex}{RasterLayer}(x, outDir = NULL, retRaster = TRUE,
-  ram = "8192", parameters.xyrad = list(c(1, 1)),
+\S4method{otbHaraTex}{RasterLayer}(x, path_output = NULL,
+  return_raster = TRUE, ram = "8192", parameters.xyrad = list(c(1, 1)),
   parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
   parameters.nbbin = 8, texture = "advanced", channel = NULL,
   verbose = FALSE)
 
-\S4method{otbHaraTex}{RasterStack}(x, outDir = NULL, retRaster = TRUE,
-  ram = "8192", parameters.xyrad = list(c(1, 1)),
+\S4method{otbHaraTex}{RasterStack}(x, path_output = NULL,
+  return_raster = TRUE, ram = "8192", parameters.xyrad = list(c(1, 1)),
   parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
   parameters.nbbin = 8, texture = "advanced", channel = NULL,
   verbose = FALSE)
 
-\S4method{otbHaraTex}{character}(x = NULL, out = "hara", outDir = NULL,
-  retRaster = FALSE, parameters.xyrad = list(c(1, 1)),
-  parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
+\S4method{otbHaraTex}{character}(x, output_name = "hara",
+  path_output = NULL, return_raster = FALSE, parameters.xyrad = list(c(1,
+  1)), parameters.xyoff = list(c(1, 1)), parameters.minmax = c(0, 255),
   parameters.nbbin = 8, texture = "advanced", channel = NULL,
   verbose = FALSE, ram = "8192")
 }
@@ -37,7 +37,7 @@
 \item{x}{A \code{Raster*} object or a GeoTiff containing 1 or more gray 
 value bands}
 
-\item{retRaster}{boolean if TRUE a raster stack is returned}
+\item{return_raster}{boolean if TRUE a raster stack is returned}
 
 \item{ram}{reserved memory in MB}
 
@@ -55,7 +55,7 @@ value bands}
 
 \item{verbose}{switch for system messages default is FALSE}
 
-\item{out}{string pattern vor individual naming of the output file(s)}
+\item{output_name}{string pattern vor individual naming of the output file(s)}
 
 \item{n_grey}{Number of grey values.}
 

@@ -4,10 +4,10 @@
 \alias{add2Path}
 \title{Add a variable to the system path}
 \usage{
-add2Path(newPath)
+add2Path(path_new)
 }
 \arguments{
-\item{newPath}{Path to be added}
+\item{path_new}{Path to be added}
 }
 \value{
 NONE

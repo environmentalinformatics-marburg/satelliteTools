@@ -4,14 +4,14 @@
 #' @note for the use textureVariables a glcm wrapper function 
 #'       a raster* object is required
 #' @param x rasterLayer or a rasterStack containing different channels
-#' @param nrasters vector of channels to use from x. Default =nlayers(x)
-#' @param kernelSize vector of numbers indicating the environment sizes for which the textures are calculated
+#' @param n_rasters vector of channels to use from x. Default =nlayers(x)
+#' @param kernel_size vector of numbers indicating the environment sizes for which the textures are calculated
 #' @param stats string vector of parameters to be calculated.see \code{\link{glcm}}
 #' @param n_grey number of grey values. see \code{\link{glcm}}
 #' @param parallel logical value indicating whether parameters are calculated parallel or not
 #' @param min_x for each channel the minimum value which can occur. If NULL then the minimum value from the rasterLayer is used.
 #' @param max_x for each channel the maximum value which can occur. If NULL then the maximum value from the rasterLayer is used.
-#' @return list of RasterStacks containing the texture parameters for each combination of channel and kernelSize  
+#' @return list of RasterStacks containing the texture parameters for each combination of channel and kernel_size  
 #' @details This functions calls the glcm function from \link{glcm} with standard settings
 #' @author Hanna Meyer
 #' 
@@ -40,7 +40,7 @@
 #' r<- raster::stack(paste0(getwd(),"4490600_5321400.tif"))
 #' 
 #' # call glcm wrapper
-#' result <- textureVariables(r,nrasters=1:3,
+#' result <- textureVariables(r,n_rasters=1:3,
 #' stats=c("mean", "variance", "homogeneity"))
 #' 
 #' #plot the results from VIS0.6 channel:
@@ -48,8 +48,8 @@
 #' }
 
 textureVariables <- function(x,
-                             nrasters=1:nlayers(x),
-                             kernelSize=c(3),
+                             n_rasters=1:nlayers(x),
+                             kernel_size=c(3),
                              stats=c("mean", "variance", "homogeneity", "contrast", "dissimilarity", "entropy", 
                                      "second_moment", "correlation"),
                              shift=list(c(0,1), c(1,1), c(1,0),c(1,-1)),
@@ -68,8 +68,8 @@ textureVariables <- function(x,
   #set values larger than the max/min value to the max/minvalue. 
   #Otherwise NA would be used
   if(!is.null(min_x)){
-    if (length(nrasters)>1){
-      for (i in nrasters){
+    if (length(n_rasters)>1){
+      for (i in n_rasters){
         x[[i]]=reclassify(x[[i]], c(max_x[i],Inf,max_x[i]))
         x[[i]]=reclassify(x[[i]], c(-Inf,min_x[i],min_x[i]))
       }
@@ -81,38 +81,38 @@ textureVariables <- function(x,
   
   
   glcm_filter<-list()
-  for (j in 1:length(kernelSize)){
+  for (j in 1:length(kernel_size)){
     if (class (x)=="RasterStack"||class (x)=="RasterBrick"){  
       if (parallel){
-        glcm_filter[[j]]<-foreach(i=nrasters,
+        glcm_filter[[j]]<-foreach(i=n_rasters,
                                   .packages= c("glcm","raster"))%dopar%{
                                     glcm(x[[i]], 
-                                         window = c(kernelSize[j], kernelSize[j]), 
+                                         window = c(kernel_size[j], kernel_size[j]), 
                                          shift=shift,
                                          statistics=stats,n_grey=n_grey,
                                          min_x=min_x[i],max_x=max_x[i],
                                          na_opt="center")
                                   } 
       } else {
-        glcm_filter[[j]]<-foreach(i=nrasters,
+        glcm_filter[[j]]<-foreach(i=n_rasters,
                                   .packages= c("glcm","raster"))%do%{
                                     mask(glcm(x[[i]], 
-                                              window = c(kernelSize[j], kernelSize[j]), 
+                                              window = c(kernel_size[j], kernel_size[j]), 
                                               shift=shift,
                                               statistics=stats,n_grey=n_grey,
                                               min_x=min_x[i],max_x=max_x[i],
                                               na_opt="center"), x[[i]])
                                   }
       }
-      names(glcm_filter[[j]])<-names(x)[nrasters]
+      names(glcm_filter[[j]])<-names(x)[n_rasters]
     } else {
-      glcm_filter[[j]]<-mask(glcm(x, window = c(kernelSize[j], kernelSize[j]), 
+      glcm_filter[[j]]<-mask(glcm(x, window = c(kernel_size[j], kernel_size[j]), 
                                   shift=shift,
                                   statistics=stats,n_grey=n_grey,
                                   min_x=min_x,max_x=max_x,
                                   na_opt="center"), x)
     }   
   }
-  names(glcm_filter)<-paste0("size_",kernelSize)
+  names(glcm_filter)<-paste0("size_",kernel_size)
   return(glcm_filter)
 }

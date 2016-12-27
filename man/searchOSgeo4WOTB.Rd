@@ -4,10 +4,10 @@
 \alias{searchOSgeo4WOTB}
 \title{Search for valid OTB installations on a given windows drive}
 \usage{
-searchOSgeo4WOTB(DL = "C:")
+searchOSgeo4WOTB(dl = "C:")
 }
 \arguments{
-\item{DL}{drive letter default is "C:"}
+\item{dl}{drive letter default is "C:"}
 }
 \value{
 a dataframe with the OTB root dir the Version name and the installation type

@@ -4,13 +4,14 @@
 \alias{otbLocalStat}
 \title{Calculates local statistics for a given kernel size}
 \usage{
-otbLocalStat(input = NULL, out = "localStat", ram = "8192", radius = 3,
-  channel = NULL, retRaster = FALSE, outDir = NULL, verbose = FALSE)
+otbLocalStat(input = NULL, output_name = "localStat", ram = "8192",
+  radius = 3, channel = NULL, return_raster = FALSE, path_output = NULL,
+  verbose = FALSE)
 }
 \arguments{
 \item{input}{of GeoTiff containing 1 ore more gray value bands}
 
-\item{out}{string pattern vor individual naming of the output file(s)}
+\item{output_name}{string pattern for individual naming of the output file(s)}
 
 \item{ram}{reserved memory in MB}
 
@@ -18,7 +19,7 @@ otbLocalStat(input = NULL, out = "localStat", ram = "8192", radius = 3,
 
 \item{channel}{sequence of bands to be processed}
 
-\item{retRaster}{boolean if TRUE a raster stack is returned}
+\item{return_raster}{boolean if TRUE a raster stack is returned}
 
 \item{verbose}{switch for system messages default is FALSE}
 }

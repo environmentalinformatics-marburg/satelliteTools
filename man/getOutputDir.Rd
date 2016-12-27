@@ -4,7 +4,7 @@
 \alias{getOutputDir}
 \title{Set texture directory if not supplied for OTB functions}
 \usage{
-getOutputDir(outDir)
+getOutputDir(path_output)
 }
 \description{
 Set texture output directory if not supplied for OTB functions

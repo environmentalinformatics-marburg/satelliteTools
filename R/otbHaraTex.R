@@ -7,7 +7,7 @@ if ( !isGeneric("otbHaraTex") ) {
 #' @note the otb is used for filtering. please provide a GeoTiff file
 #' @param x A \code{Raster*} object or a GeoTiff containing 1 or more gray 
 #' value bands
-#' @param out string pattern vor individual naming of the output file(s)
+#' @param output_name string pattern vor individual naming of the output file(s)
 #' @param parameters.xyrad list with the x and y radius in pixel indicating the kernel sizes for which the textures are calculated
 #' @param parameters.xyoff  vector containg the directional offsets. Valid combinations are: list(c(1,1),c(1,0),c(0,1),c(1,-1))
 #' @param n_grey Number of grey values. 
@@ -17,7 +17,7 @@ if ( !isGeneric("otbHaraTex") ) {
 #' @param texture type of filter "simple" "advanced" "higher"
 #' @param channel sequence of bands to be processed
 #' @param ram reserved memory in MB
-#' @param retRaster boolean if TRUE a raster stack is returned
+#' @param return_raster boolean if TRUE a raster stack is returned
 #' @param verbose switch for system messages default is FALSE
 #' @return A list of RasterStacks containing the texture parameters for each 
 #' combination of channel and filter  
@@ -54,8 +54,8 @@ NULL
 setMethod("otbHaraTex", 
           signature(x = "RasterBrick"), 
           function(x,
-                   outDir=NULL,
-                   retRaster=TRUE,
+                   path_output=NULL,
+                   return_raster=TRUE,
                    ram="8192",
                    parameters.xyrad=list(c(1,1)),
                    parameters.xyoff=list(c(1,1)),
@@ -64,13 +64,13 @@ setMethod("otbHaraTex",
                    texture="advanced",
                    channel=NULL,
                    verbose=FALSE){
-            writeRaster(x, file = paste0(outDir, "tmp.tif"), overwrite = TRUE)
-            x <- paste0(outDir, "tmp.tif")
+            writeRaster(x, file = paste0(path_output, "tmp.tif"), overwrite = TRUE)
+            x <- paste0(path_output, "tmp.tif")
             tempout <- format(Sys.time(), "%Y-%m-%d-%H%M%S")
             retStack <- otbHaraTex(x = x,
-                                   out = tempout,
-                                   outDir = outDir,
-                                   retRaster = TRUE,
+                                   output_name = tempout,
+                                   path_output = path_output,
+                                   return_raster = TRUE,
                                    parameters.xyrad = parameters.xyrad,
                                    parameters.xyoff = parameters.xyoff,
                                    parameters.minmax = parameters.minmax,
@@ -80,7 +80,7 @@ setMethod("otbHaraTex",
                                    verbose = verbose,
                                    ram = ram)
             file.remove(x)
-            tmpfiles <- list.files(outDir, 
+            tmpfiles <- list.files(path_output, 
                                    pattern = glob2rx(paste0("*", tempout, "*")),
                                    full.names = TRUE)
             file.remove(tmpfiles)
@@ -95,8 +95,8 @@ setMethod("otbHaraTex",
 setMethod("otbHaraTex", 
           signature(x = "RasterLayer"), 
           function(x,
-                   outDir=NULL,
-                   retRaster=TRUE,
+                   path_output=NULL,
+                   return_raster=TRUE,
                    ram="8192",
                    parameters.xyrad=list(c(1,1)),
                    parameters.xyoff=list(c(1,1)),
@@ -106,8 +106,8 @@ setMethod("otbHaraTex",
                    channel=NULL,
                    verbose=FALSE){
             retStack <- otbHaraTex(x = raster::brick(x),
-                                   outDir = outDir,
-                                   retRaster = retRaster,
+                                   path_output = path_output,
+                                   return_raster = return_raster,
                                    parameters.xyrad = parameters.xyrad,
                                    parameters.xyoff = parameters.xyoff,
                                    parameters.minmax = parameters.minmax,
@@ -127,8 +127,8 @@ setMethod("otbHaraTex",
 setMethod("otbHaraTex", 
           signature(x = "RasterStack"), 
           function(x,
-                   outDir=NULL,
-                   retRaster=TRUE,
+                   path_output=NULL,
+                   return_raster=TRUE,
                    ram="8192",
                    parameters.xyrad=list(c(1,1)),
                    parameters.xyoff=list(c(1,1)),
@@ -138,8 +138,8 @@ setMethod("otbHaraTex",
                    channel=NULL,
                    verbose=FALSE){
             retStack <- otbHaraTex(x = raster::brick(x),
-                                   outDir = outDir,
-                                   retRaster = retRaster,
+                                   path_output = path_output,
+                                   return_raster = return_raster,
                                    parameters.xyrad = parameters.xyrad,
                                    parameters.xyoff = parameters.xyoff,
                                    parameters.minmax = parameters.minmax,
@@ -158,9 +158,9 @@ setMethod("otbHaraTex",
 setMethod("otbHaraTex", 
           signature(x = "character"), 
           function(x,
-                   out="hara",
-                   outDir=NULL,
-                   retRaster=FALSE,
+                   output_name="hara",
+                   path_output=NULL,
+                   return_raster=FALSE,
                    parameters.xyrad=list(c(1,1)),
                    parameters.xyoff=list(c(1,1)),
                    parameters.minmax=c(0,255),
@@ -185,9 +185,9 @@ setMethod("otbHaraTex",
               for (xyrad in parameters.xyrad) {
                 for (xyoff in parameters.xyoff) {
                   # generate the putputfilename
-                  outName<-paste0(outDir,
+                  output_name<-paste0(path_output,
                                   "band_", band, "_", 
-                                  out, "_",
+                                  output_name, "_",
                                   texture, "_",
                                   xyrad[1], xyrad[2], "_",
                                   xyoff[1], xyoff[2],
@@ -197,7 +197,7 @@ setMethod("otbHaraTex",
                   # now add all arguments
                   command<-paste(command, " -in ", x)
                   command<-paste(command, " -channel ", channel)
-                  command<-paste(command, " -out ", outName)
+                  command<-paste(command, " -output_name ", output_name)
                   command<-paste(command, " -ram ",ram)
                   command<-paste(command, " -parameters.xrad ",xyrad[1])
                   command<-paste(command, " -parameters.yrad ",xyrad[2])
@@ -215,9 +215,9 @@ setMethod("otbHaraTex",
                     system(command[band],intern = TRUE,ignore.stdout = TRUE)
                   }  
                   # if you want to have a rasterstack returned do it
-                  if (retRaster) retStack[[band]] <- 
-                    assign(paste0(tools::file_path_sans_ext(basename(outName)),
-                                  "band_",band),raster::stack(outName))
+                  if (return_raster) retStack[[band]] <- 
+                    assign(paste0(tools::file_path_sans_ext(basename(output_name)),
+                                  "band_",band),raster::stack(output_name))
                 }
               }
             }

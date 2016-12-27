@@ -2,11 +2,11 @@
 #' @description Calculate local statistics using OTB functions.
 #' @note the otb is used for the calculation of the statistics. Please provide a GeoTiff file  
 #' @param input of GeoTiff containing 1 ore more gray value bands
-#' @param out string pattern vor individual naming of the output file(s)
+#' @param output_name string pattern for individual naming of the output file(s)
 #' @param radius computational window in pixel
 #' @param channel sequence of bands to be processed
 #' @param ram reserved memory in MB
-#' @param retRaster boolean if TRUE a raster stack is returned
+#' @param return_raster boolean if TRUE a raster stack is returned
 #' @param verbose switch for system messages default is FALSE
 #' @author Chris Reudenbach
 #' @export otbLocalStat
@@ -19,24 +19,24 @@
 #' }
 
 otbLocalStat<- function(input=NULL,
-                        out="localStat",
+                        output_name="localStat",
                         ram="8192",
                         radius=3,
                         channel=NULL,
-                        retRaster=FALSE,
-                        outDir=NULL,
+                        return_raster=FALSE,
+                        path_output=NULL,
                         verbose=FALSE){
   
-  directory<-getOutputDir(outDir)
+  directory<-getOutputDir(path_output)
   retStack<-list()
   if (is.null(channel)) channel<-seq(length(grep(gdalUtils::gdalinfo(input,nomd = TRUE),pattern = "Band ")))
   for (band in channel) {
     
-    outName<-paste0(directory,
+    output_name<-paste0(directory,
                     "band_",
                     band,
                     "_",
-                    out,
+                    output_name,
                     "_",
                     radius,
                     ".tif")
@@ -44,7 +44,7 @@ otbLocalStat<- function(input=NULL,
     command<-paste0(otbPath,"otbcli_LocalStatisticExtraction")
     command<-paste(command, " -in ", input)
     command<-paste(command, " -channel ", channel)
-    command<-paste(command, " -out ", outName)
+    command<-paste(command, " -output_name ", output_name)
     command<-paste(command, " -ram ",ram)
     command<-paste(command, " -radius ",radius)
     if (verbose) {
@@ -53,7 +53,7 @@ otbLocalStat<- function(input=NULL,
     else{
       system(command[band],intern = TRUE,ignore.stdout = TRUE)}  
     
-    if (retRaster) retStack[[band]]<-assign(paste0(tools::file_path_sans_ext(basename(outName)),"band_",band),raster::stack(outName))
+    if (return_raster) retStack[[band]]<-assign(paste0(tools::file_path_sans_ext(basename(output_name)),"band_",band),raster::stack(output_name))
   }
   return(retStack)
 }

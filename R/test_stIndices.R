@@ -9,18 +9,21 @@
 #' \dontrun{
 #' }
 stIndices <- function(sat, ...){
-  
-  cppFunction('List be_re_indices_cpp(NumericVector blue, NumericVector green, NumericVector red, NumericVector re, NumericVector nir){
-              
-              NumericVector ndvi = (nir - red) / (nir + red);
-              NumericVector gndvi = (nir - green) / (nir + green);
-              NumericVector sr = nir/red;
-              NumericVector ndvire = (nir - re)/(nir + re);
-              NumericVector srre = nir/re;
-              NumericVector rtvicore = 100 * (nir - re) - 10 * (nir - green);
-              
-              return List::create(ndvi, gndvi, sr, srre, rtvicore);
-}')
+  cppFunction('int add(int x, int y, int z) {
+  int sum = x + y + z;
+              return sum;
+}')  
+#   cppFunction('List be_re_indices_cpp(NumericVector blue, NumericVector green, NumericVector red, NumericVector re, NumericVector nir){
+#               
+#               NumericVector ndvi = (nir - red) / (nir + red);
+#               NumericVector gndvi = (nir - green) / (nir + green);
+#               NumericVector sr = nir/red;
+#               NumericVector ndvire = (nir - re)/(nir + re);
+#               NumericVector srre = nir/re;
+#               NumericVector rtvicore = 100 * (nir - re) - 10 * (nir - green);
+#               
+#               return List::create(ndvi, gndvi, sr, srre, rtvicore);
+# }')
   
   blue <- raster::getValues(satellite::getSatDataLayers(sat, "B001n")[[1]])
   green <- raster::getValues(satellite::getSatDataLayers(sat, "B002n")[[1]])

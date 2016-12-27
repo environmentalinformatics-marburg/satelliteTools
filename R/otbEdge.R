@@ -2,13 +2,13 @@
 #' 
 #' @note the otb is used for filtering. please provide a GeoTiff file
 #' @param input of GeoTiff containing 1 ore more gray value band(s)
-#' @param out the output mono band image containing the edge features
+#' @param output_name the output mono band image containing the edge features
 #' @param filter the choice of edge detection method (gradient/sobel/touzi)
 #' @param filter.touzi.xradius x radius of the Touzi processing neighborhood (if filter==touzi) (default value is 1 pixel)
 #' @param filter.touzi.yradius y radius of the Touzi processing neighborhood (if filter==touzi) (default value is 1 pixel)
 #' @param channel sequence of bands to be processed
 #' @param ram reserved memory in MB
-#' @param retRaster boolean if TRUE a raster stack is returned
+#' @param return_raster boolean if TRUE a raster stack is returned
 #' @param verbose switch for system messages default is FALSE
 #' @return list of geotiffs containing thelocal statistics for each channel 
 #' @author Chris Reudenbach
@@ -23,27 +23,27 @@
 #' }
 
 otbEdge<- function(input=NULL,
-                   out="edge",
+                   output_name="edge",
                    ram="8192",
                    filter="gradient",
                    filter.touzi.xradius=1,
                    filter.touzi.yradius=1,
                    channel=NULL,
-                   retRaster=FALSE,
-                   outDir=NULL,
+                   return_raster=FALSE,
+                   path_output=NULL,
                    verbose=FALSE){
   
-  directory<-getOutputDir(outDir)
+  directory<-getOutputDir(path_output)
   retStack<-list()
   if (is.null(channel)) channel<-seq(length(grep(gdalUtils::gdalinfo(input,nomd = TRUE),pattern = "Band ")))
   for (band in channel) {
-    outName<-paste0(directory,
+    output_name<-paste0(directory,
                     "band_",
                     band,
                     "_",
                     filter,
                     "_",
-                    out,
+                    output_name,
                     ".tif")
     
     command<-paste0(otbPath,"otbcli_EdgeExtraction")
@@ -54,7 +54,7 @@ otbEdge<- function(input=NULL,
       command<-paste(command, " -filter.touzi.xradius ", filter.touzi.xradius)
       command<-paste(command, " -filter.touzi.yradius ", filter.touzi.yradius)
     }
-    command<-paste(command, " -out ", outName)
+    command<-paste(command, " -output_name ", output_name)
     command<-paste(command, " -ram ",ram)
     if (verbose) {
       cat("\nrunning cmd:  ", command[band],"\n")
@@ -62,7 +62,7 @@ otbEdge<- function(input=NULL,
     else{
       system(command[band],intern = TRUE,ignore.stdout = TRUE)}          
     
-    if (retRaster) retStack[[band]]<-assign(paste0(tools::file_path_sans_ext(basename(outName)),"band_",band),raster::stack(outName))
+    if (return_raster) retStack[[band]]<-assign(paste0(tools::file_path_sans_ext(basename(output_name)),"band_",band),raster::stack(output_name))
   }
   return(retStack)
 }

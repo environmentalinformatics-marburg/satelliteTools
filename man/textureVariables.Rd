@@ -4,7 +4,7 @@
 \alias{textureVariables}
 \title{Create texture variables based on glcm}
 \usage{
-textureVariables(x, nrasters = 1:nlayers(x), kernelSize = c(3),
+textureVariables(x, n_rasters = 1:nlayers(x), kernel_size = c(3),
   stats = c("mean", "variance", "homogeneity", "contrast", "dissimilarity",
   "entropy", "second_moment", "correlation"), shift = list(c(0, 1), c(1, 1),
   c(1, 0), c(1, -1)), parallel = TRUE, n_grey = 8, min_x = NULL,
@@ -13,9 +13,9 @@ textureVariables(x, nrasters = 1:nlayers(x), kernelSize = c(3),
 \arguments{
 \item{x}{rasterLayer or a rasterStack containing different channels}
 
-\item{nrasters}{vector of channels to use from x. Default =nlayers(x)}
+\item{n_rasters}{vector of channels to use from x. Default =nlayers(x)}
 
-\item{kernelSize}{vector of numbers indicating the environment sizes for which the textures are calculated}
+\item{kernel_size}{vector of numbers indicating the environment sizes for which the textures are calculated}
 
 \item{stats}{string vector of parameters to be calculated.see \code{\link{glcm}}}
 
@@ -28,7 +28,7 @@ textureVariables(x, nrasters = 1:nlayers(x), kernelSize = c(3),
 \item{max_x}{for each channel the maximum value which can occur. If NULL then the maximum value from the rasterLayer is used.}
 }
 \value{
-list of RasterStacks containing the texture parameters for each combination of channel and kernelSize
+list of RasterStacks containing the texture parameters for each combination of channel and kernel_size
 }
 \description{
 Wrapper arround glcm in order to create a set of texture variables.
@@ -63,7 +63,7 @@ unzip(res,junkpaths = TRUE,overwrite = TRUE)
 r<- raster::stack(paste0(getwd(),"4490600_5321400.tif"))
 
 # call glcm wrapper
-result <- textureVariables(r,nrasters=1:3,
+result <- textureVariables(r,n_rasters=1:3,
 stats=c("mean", "variance", "homogeneity"))
 
 #plot the results from VIS0.6 channel:

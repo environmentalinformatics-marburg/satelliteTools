@@ -4,15 +4,15 @@
 \alias{otbGrayMorpho}
 \title{Calculates Gray scale morphological operations for a given kernel size}
 \usage{
-otbGrayMorpho(input = NULL, out = "edge", ram = "8192",
+otbGrayMorpho(input = NULL, output_name = "edge", ram = "8192",
   filter = "dilate", structype = "ball", structype.ball.xradius = 5,
-  structype.ball.yradius = 5, channel = NULL, retRaster = FALSE,
-  outDir = NULL, verbose = FALSE)
+  structype.ball.yradius = 5, channel = NULL, return_raster = FALSE,
+  path_output = NULL, verbose = FALSE)
 }
 \arguments{
 \item{input}{of GeoTiff containing 1 ore more gray value bands}
 
-\item{out}{the output mono band image containing the edge features}
+\item{output_name}{the output mono band image containing the edge features}
 
 \item{ram}{reserved memory in MB}
 
@@ -26,7 +26,7 @@ otbGrayMorpho(input = NULL, out = "edge", ram = "8192",
 
 \item{channel}{sequence of bands to be processed}
 
-\item{retRaster}{boolean if TRUE a raster stack is returned}
+\item{return_raster}{boolean if TRUE a raster stack is returned}
 
 \item{verbose}{switch for system messages default is FALSE}
 }
@@ -44,7 +44,7 @@ the otb is used for filtering. please provide a GeoTiff file
 url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip"
 res <- curl::curl_download(url, "testdata.zip")
 unzip(res,junkpaths = TRUE,overwrite = TRUE)
-gm<-otbGrayMorpho(input=paste0(getwd(),"4490600_5321400.tif"),retRaster = TRUE)
+gm<-otbGrayMorpho(input=paste0(getwd(),"4490600_5321400.tif"),return_raster = TRUE)
 raster::plot(gm[[1]])
 }
 }

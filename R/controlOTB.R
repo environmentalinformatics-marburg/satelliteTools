@@ -6,15 +6,15 @@
 #' @examples 
 #'\dontrun{
 #'}
-getOutputDir<- function (outDir){
-  if (!is.null(outDir)) {
-    otbOutputDir<-outDir
-    if (!file.exists(paste0(otbOutputDir, "/texture/"))) dir.create(file.path(paste0(otbOutputDir, "/texture/")), recursive = TRUE,showWarnings = FALSE)
+getOutputDir<- function (path_output){
+  if (!is.null(path_output)) {
+    path_output<-path_output
+    if (!file.exists(paste0(path_output, "/texture/"))) dir.create(file.path(paste0(path_output, "/texture/")), recursive = TRUE,showWarnings = FALSE)
   } else {
-    otbOutputDir<-paste0(getwd(),"/texture/")
-    if (!file.exists(paste0(otbOutputDir, "/texture/"))) dir.create(file.path(paste0(otbOutputDir, "/texture/")), recursive = TRUE,showWarnings = FALSE)
+    path_output<-paste0(getwd(),"/texture/")
+    if (!file.exists(paste0(path_output, "/texture/"))) dir.create(file.path(paste0(path_output, "/texture/")), recursive = TRUE,showWarnings = FALSE)
   }
-  return(otbOutputDir)
+  return(path_output)
 }
 
 
@@ -36,11 +36,11 @@ getOutputDir<- function (outDir){
 #'}
 
 
-setOTBEnv <- function(defaultOTBPath = "C:\\OSGeo4W64\\bin",installationRoot="C:\\OSGeo4W64"){
+setOTBEnv <- function(path_otb = "C:\\OSGeo4W64\\bin",path_otb_root="C:\\OSGeo4W64"){
   
   if (substr(Sys.getenv("COMPUTERNAME"),1,5)=="PCRZP") {
-    defaultOTBPath <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-    installationRoot <- shQuote("C:\\Program Files\\QGIS 2.14")
+    path_otb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
+    path_otb_root <- shQuote("C:\\Program Files\\QGIS 2.14")
     Sys.setenv(GEOTIFF_CSV=paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GlobalEnv)
     
   } else {
@@ -48,22 +48,22 @@ setOTBEnv <- function(defaultOTBPath = "C:\\OSGeo4W64\\bin",installationRoot="C:
     # (R) set pathes  of otb modules and binaries depending on OS  
     if(Sys.info()["sysname"] == "Windows"){
       
-      makGlobalVar(name="otbPath", value=defaultOTBPath)
-      add2Path(newPath = defaultOTBPath)
-      Sys.setenv(OSGEO4W_ROOT=installationRoot)
+      makGlobalVar(name="otbPath", value=path_otb)
+      add2Path(path_new = path_otb)
+      Sys.setenv(OSGEO4W_ROOT=path_otb_root)
       Sys.setenv(GEOTIFF_CSV=paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GlobalEnv)
       
     } else {
       makGlobalVar("otbPath", "(usr/bin/")
     }
   }
-  return(defaultOTBPath)
+  return(path_otb)
 }
 
 
 #' Search for valid OTB installations on a given windows drive 
 #'@description  provides a pretty good estimation of valid OTB installations on your Windows system
-#'@param DL drive letter default is "C:"
+#'@param dl drive letter default is "C:"
 #'@return a dataframe with the OTB root dir the Version name and the installation type
 #'@author Chris Reudenbach
 #'@name searchOSgeo4WOTB
@@ -71,12 +71,12 @@ setOTBEnv <- function(defaultOTBPath = "C:\\OSGeo4W64\\bin",installationRoot="C:
 #' @examples 
 #'\dontrun{
 #'}
-searchOSgeo4WOTB <- function(DL = "C:"){
+searchOSgeo4WOTB <- function(dl = "C:"){
   
   
   if (substr(Sys.getenv("COMPUTERNAME"),1,5)=="PCRZP") {
-    defaultOTBPath <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
-    otbInstallations<- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installationType = "osgeo4wOTB",stringsAsFactors = FALSE)
+    path_otb <- shQuote("C:\\Program Files\\QGIS 2.14\\bin")
+    otb_installations<- data.frame(instDir = shQuote("C:\\Program Files\\QGIS 2.14\\bin"), installation_type = "osgeo4wOTB",stringsAsFactors = FALSE)
     Sys.setenv(GEOTIFF_CSV=paste0(Sys.getenv("OSGEO4W_ROOT"),"\\share\\epsg_csv"),envir = .GlobalEnv)
     
   } else {
@@ -86,45 +86,45 @@ searchOSgeo4WOTB <- function(DL = "C:"){
     cat("\nsearching for OTB installations - this may take a while\n")
     cat("Alternatively you can provide a path like: C:\\OSGeo4W64\\bin\\\n")
     cat("You can also provide a installation type like: 'osgeo4w64OTB'\n")
-    rawOTB <- system(paste0("cmd.exe /c dir /B /S ",DL,"\\","otbcli.bat"),intern = TRUE)
+    raw_otb <- system(paste0("cmd.exe /c dir /B /S ",dl,"\\","otbcli.bat"),intern = TRUE)
     
     # trys to identify valid otb installations and their version numbers
-    otbInstallations <- lapply(seq(length(rawOTB)), function(i){
+    otb_installations <- lapply(seq(length(raw_otb)), function(i){
       # convert codetable according to cmd.exe using type
-      batchfileLines <- rawOTB[i]
-      installerType<-""
-      # if the the tag "OSGEO4W" exists set installationType
-      if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), rawOTB[i], value = TRUE))) > 0){
-        rootDir<-unique(grep(paste("OSGeo4W64", collapse = "|"), rawOTB[i], value = TRUE))
-        rootDir<- substr(rootDir,1, gregexpr(pattern = "otbcli.bat", rootDir)[[1]][1] - 1)
-        installDir<-substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
-        installerType<- "osgeo4w64OTB"
+      batchfileLines <- raw_otb[i]
+      installer_type<-""
+      # if the the tag "OSGEO4W" exists set installation_type
+      if (length(unique(grep(paste("OSGeo4W64", collapse = "|"), raw_otb[i], value = TRUE))) > 0){
+        path_otb_root<-unique(grep(paste("OSGeo4W64", collapse = "|"), raw_otb[i], value = TRUE))
+        path_otb_root<- substr(path_otb_root,1, gregexpr(pattern = "otbcli.bat", path_otb_root)[[1]][1] - 1)
+        path_install<-substr(path_otb_root,1, gregexpr(pattern = "bin", path_otb_root)[[1]][1] - 2)
+        installer_type<- "osgeo4w64OTB"
       }    
       
-      # if the the tag "OSGEO4W" exists set installationType
-      else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), rawOTB[i], value = TRUE))) > 0){
-        rootDir<-unique(grep(paste("OSGeo4W", collapse = "|"), rawOTB[i], value = TRUE))
-        rootDir<- substr(rootDir,1, gregexpr(pattern = "otbcli.bat", rootDir)[[1]][1] - 1)
-        installDir<-substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
-        installerType<- "osgeo4wOTB"
+      # if the the tag "OSGEO4W" exists set installation_type
+      else if (length(unique(grep(paste("OSGeo4W", collapse = "|"), raw_otb[i], value = TRUE))) > 0){
+        path_otb_root<-unique(grep(paste("OSGeo4W", collapse = "|"), raw_otb[i], value = TRUE))
+        path_otb_root<- substr(path_otb_root,1, gregexpr(pattern = "otbcli.bat", path_otb_root)[[1]][1] - 1)
+        path_install<-substr(path_otb_root,1, gregexpr(pattern = "bin", path_otb_root)[[1]][1] - 2)
+        installer_type<- "osgeo4wOTB"
       }
-      # if the the tag "QGIS" exists set installationType
+      # if the the tag "QGIS" exists set installation_type
       else if (length(unique(grep(paste("QGIS", collapse = "|"), batchfileLines, value = TRUE))) > 0){
-        rootDir<-unique(grep(paste("QGIS", collapse = "|"), rawOTB[i], value = TRUE))
-        rootDir<- substr(rootDir,1, gregexpr(pattern = "otbcli.bat", rootDir)[[1]][1] - 1)
-        installDir<-substr(rootDir,1, gregexpr(pattern = "bin", rootDir)[[1]][1] - 2)
-        installerType<- "qgisOTB"
+        path_otb_root<-unique(grep(paste("QGIS", collapse = "|"), raw_otb[i], value = TRUE))
+        path_otb_root<- substr(path_otb_root,1, gregexpr(pattern = "otbcli.bat", path_otb_root)[[1]][1] - 1)
+        path_install<-substr(path_otb_root,1, gregexpr(pattern = "bin", path_otb_root)[[1]][1] - 2)
+        installer_type<- "qgisOTB"
       }
       
       # put the existing GISBASE directory, version number  and installation type in a data frame
-      data.frame(binDir = rootDir, baseDir=installDir, installationType = installerType,stringsAsFactors = FALSE)
+      data.frame(path_bin = path_otb_root, path_base=path_install, installation_type = installer_type, stringsAsFactors = FALSE)
       
     }) # end lapply
     
     # bind the df lines
-    otbInstallations <- do.call("rbind", otbInstallations)
+    otb_installations <- do.call("rbind", otb_installations)
   }
-  return(otbInstallations)
+  return(otb_installations)
 }
 
 
@@ -151,7 +151,7 @@ makGlobalVar <- function(name,value) {
 
 #'Add a variable to the system path
 #'@description Add a variable to the system path
-#'@param newPath Path to be added
+#'@param path_new Path to be added
 #'@return NONE
 #'@author Chris Reudenbach
 #'@name add2Path
@@ -159,7 +159,7 @@ makGlobalVar <- function(name,value) {
 #' @examples 
 #'\dontrun{
 #'}
-add2Path<- function(newPath) {
+add2Path<- function(path_new) {
   exist<-FALSE
   if(Sys.info()["sysname"] == "Windows"){
     del<-";"  
@@ -167,11 +167,11 @@ add2Path<- function(newPath) {
     del<-":"  
   } 
   p <- Sys.getenv("PATH")
-  if(substr(p, 1,nchar(newPath)) == newPath){
+  if(substr(p, 1,nchar(path_new)) == path_new){
     exist <- TRUE
   }
   # if not exist append path to systempath
   if (!exist){
-    Sys.setenv(PATH=paste0(newPath,del,Sys.getenv("PATH")))
+    Sys.setenv(PATH=paste0(path_new,del,Sys.getenv("PATH")))
   }
 }

@@ -4,8 +4,8 @@
 \alias{setOTBEnv}
 \title{Set environment parameters of OTB}
 \usage{
-setOTBEnv(defaultOTBPath = "C:\\\\OSGeo4W64\\\\bin",
-  installationRoot = "C:\\\\OSGeo4W64")
+setOTBEnv(path_otb = "C:\\\\OSGeo4W64\\\\bin",
+  path_otb_root = "C:\\\\OSGeo4W64")
 }
 \arguments{
 \item{otbPath}{string contains path to otb binaries}
