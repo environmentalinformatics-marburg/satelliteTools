@@ -80,7 +80,7 @@ setMethod("otbHaraTex",
                                    verbose = verbose,
                                    ram = ram)
             file.remove(x)
-            tmpfiles <- list.files(directory, 
+            tmpfiles <- list.files(outDir, 
                                    pattern = glob2rx(paste0("*", tempout, "*")),
                                    full.names = TRUE)
             file.remove(tmpfiles)
@@ -157,7 +157,7 @@ setMethod("otbHaraTex",
 #'
 setMethod("otbHaraTex", 
           signature(x = "character"), 
-          function(x=NULL,
+          function(x,
                    out="hara",
                    outDir=NULL,
                    retRaster=FALSE,
