@@ -236,7 +236,7 @@ setMethod("otbTexturesHaralick",
                                     "Long_Run_Low_Grey-Level_Emphasis",
                                     "Long_Run_High_Grey-Level_Emphasis")
                       }
-                      ret_textures <- raster::stack(path_outfile)
+                      ret_textures <- readAll(raster::stack(path_outfile))
                       names(ret_textures) <- paste0(bnames, "-", 
                                                     "b", band,
                                                     "r", xyrad[1],

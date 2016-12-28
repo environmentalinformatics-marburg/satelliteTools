@@ -34,6 +34,7 @@ snipRaster <- function(raster, spatial, selector = NULL, buffer = NULL,
                        byid = TRUE){
   if(!is.null(selector)){
     spatial <- spatial[!duplicated(spatial@data[, selector]),]
+    raster_snip_ids <- spatial@data[, selector]
   }
   lspt <- length(spatial)
   plots <- lapply(seq(lspt), function(i){
@@ -45,4 +46,8 @@ snipRaster <- function(raster, spatial, selector = NULL, buffer = NULL,
     plot <- crop(raster, spt)
     return(plot)
   })
+  if(!is.null(selector)){
+    names(plots) <- raster_snip_ids
+  }
+  return(plots)
 }
