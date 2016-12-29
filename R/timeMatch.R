@@ -23,13 +23,14 @@
 #' @export timeMatch
 #' @name timeMatch
 #'
-timeMatch <- function(a, b){
+timeMatch <- function(a, b, after = TRUE){
   a[1:10]
   b[1:10]
   
   time_match <- lapply(a, function(ai){
     dt <- ai - b
     id <- which(abs(dt) == min(abs(dt)))
+    if(length(id) > 1) id <- id[length(id)]
     data.frame(a = ai,
                b = b[id],
                diff = dt[id],
