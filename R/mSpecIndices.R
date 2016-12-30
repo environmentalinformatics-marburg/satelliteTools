@@ -17,13 +17,13 @@ mSpecIndices <- function(blue, green, red, nir){
   
   indices <- mSpecIndicesCPP(vblue, vgreen, vred, vnir)
   ndvi <- setValues(blue, indices[[1]])
-  names(ndvi) <- "ndvi"
+  names(ndvi) <- "NDVI"
   
   gndvi <- setValues(blue, indices[[2]])
-  names(gndvi) <- "gndvi"
+  names(gndvi) <- "GNDVI"
 
   sr <- setValues(blue, indices[[3]])
-  names(sr) <- "sr"
+  names(sr) <- "SR"
 
   return(raster::stack(ndvi, gndvi, sr))
 }

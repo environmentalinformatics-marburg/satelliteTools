@@ -4,7 +4,7 @@
 \alias{timeMatch}
 \title{Match time stamps of two vectors}
 \usage{
-timeMatch(a, b)
+timeMatch(a, b, after = TRUE)
 }
 \arguments{
 \item{a}{Vector with time information}

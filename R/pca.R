@@ -2,15 +2,31 @@ if ( !isGeneric("pca") ) {
   setGeneric("pca", function(x, ...)
     standardGeneric("pca"))
 }
-#' Calculate image textures
+#' Calculate PCA
 #' 
-#' @param x Satellite object or raster stack.
+#' @description Calculate principal components from raster data values. The
+#' raster can either be supplied as \code{Raster*} object, \code{satellite*}
+#' object or as a list of \code{Raster*} objects. The latter is usefull if the
+#' raster dataset has been tiled into small observation areas using e.g. 
+#' \code{\ling{snipRaster}}.
+#' 
+#' @param x \code{Satellite}, \code{Raster*} or \code{list} of \code{Raster*} 
+#' objects
 #' @param bcde Band code(s) to be used for computing the pca
 #' @param ... Further arguments passed on to \code{\link{RStoolbox::rasterPCA}}
+#' or \code{\link{stats::prcomp}}
+#' @param ignore_names If list is supplied and if the band names of the 
+#' individual rasters do not match (e.g. because of different observation dates),
+#' ignore the names when building a single data frame for the PCA computation
+#' (does not hurt).
+#' @param center See \code{\link{stats::prcomp}}
+#' @param scale See \code{\link{stats::prcomp}}
 #' 
 #' @details 
-#' The method is a wrapper for of glcm:glcm by A. Zvoleff
-#' (see \url{https://cran.r-project.org/web/packages/glcm/index.html})
+#' The method for \code{Raster*} and \code{Satellite*} objects is basically a
+#' wrapper arround the respective function in the RStoolbox package. For the list
+#' (i.e. snip) related implementation, the stats::prcomp function is used to actually
+#' compute the PCA.
 #' 
 #' @return If x is a Satellite object, a Satellite object with added image
 #' textures; if x is a \code{raster::Raster*} object, a \code{raster::Raster*} 
@@ -20,7 +36,10 @@ if ( !isGeneric("pca") ) {
 #' 
 #' @name pca
 #' 
-#' @references None.
+#' @references
+#' Benjamin Leutner and Ned Horning (2016). RStoolbox: Tools for Remote Sensing 
+#' Data Analysis. R package version 0.1.6. 
+#' https://CRAN.R-project.org/package=RStoolbox
 #' 
 #' @examples
 #' \dontrun{
@@ -55,13 +74,13 @@ setMethod("pca",
             meta_param <- 
               meta_param[rep(seq_len(nrow(meta_param)), each = length(meta_bcde)),]
             meta_param$TYPE <- "PCA"
-
+            
             info <- sys.calls()[[1]]
             info <- act$model
             x <- addSatDataLayer(x, bcde = meta_bcde, data = act$map, 
                                  meta_param = meta_param,
                                  info = info, in_bcde = bcde[1])
-          return(x)
+            return(x)
           })
 
 
@@ -80,3 +99,32 @@ setMethod("pca",
           })
 
 
+
+
+# Function using list object of RasteR* ----------------------------------------
+#' 
+#' @rdname pca
+#'
+setMethod("pca", 
+          signature(x = "list"), 
+          function(x, ignore_names = FALSE, center = TRUE, scale = TRUE, ...){
+            
+            values <- lapply(seq(length(x)), function(i){
+              df <- data.frame(getValues(x[[i]]),
+                               id = i)
+              if(ignore_names){
+                colnames(df) <- c(paste0("band_", seq(ncol(df)-1)), "id")
+              }
+              return(df)
+            })
+            values <- do.call("rbind", values)
+            
+            pca <- prcomp(values[, -which(colnames(values) == "id")],
+                          center = center, scale = scale, retx = TRUE)
+            
+            results <- lapply(seq(length(x)), function(i){
+              setValues(x[[i]], pca$x[which(values$id == i), ])
+            })
+            names(results) <- names(x)
+            return(results)
+          })

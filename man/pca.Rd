@@ -5,18 +5,33 @@
 \alias{pca}
 \alias{pca,RasterStack-method}
 \alias{pca,Satellite-method}
-\title{Calculate image textures}
+\alias{pca,list-method}
+\title{Calculate PCA}
 \usage{
 \S4method{pca}{Satellite}(x, bcde, prfx = NULL, return_raster = FALSE, ...)
 
 \S4method{pca}{RasterStack}(x, return_raster = FALSE, ...)
+
+\S4method{pca}{list}(x, ignore_names = FALSE, center = TRUE, scale = TRUE,
+  ...)
 }
 \arguments{
-\item{x}{Satellite object or raster stack.}
+\item{x}{\code{Satellite}, \code{Raster*} or \code{list} of \code{Raster*} 
+objects}
 
 \item{bcde}{Band code(s) to be used for computing the pca}
 
-\item{...}{Further arguments passed on to \code{\link{RStoolbox::rasterPCA}}}
+\item{...}{Further arguments passed on to \code{\link{RStoolbox::rasterPCA}}
+or \code{\link{stats::prcomp}}}
+
+\item{ignore_names}{If list is supplied and if the band names of the 
+individual rasters do not match (e.g. because of different observation dates),
+ignore the names when building a single data frame for the PCA computation
+(does not hurt).}
+
+\item{center}{See \code{\link{stats::prcomp}}}
+
+\item{scale}{See \code{\link{stats::prcomp}}}
 }
 \value{
 If x is a Satellite object, a Satellite object with added image
@@ -24,11 +39,17 @@ textures; if x is a \code{raster::Raster*} object, a \code{raster::Raster*}
 object with converted layer(s).
 }
 \description{
-Calculate image textures
+Calculate principal components from raster data values. The
+raster can either be supplied as \code{Raster*} object, \code{satellite*}
+object or as a list of \code{Raster*} objects. The latter is usefull if the
+raster dataset has been tiled into small observation areas using e.g. 
+\code{\ling{snipRaster}}.
 }
 \details{
-The method is a wrapper for of glcm:glcm by A. Zvoleff
-(see \url{https://cran.r-project.org/web/packages/glcm/index.html})
+The method for \code{Raster*} and \code{Satellite*} objects is basically a
+wrapper arround the respective function in the RStoolbox package. For the list
+(i.e. snip) related implementation, the stats::prcomp function is used to actually
+compute the PCA.
 }
 \examples{
 \dontrun{
@@ -40,6 +61,8 @@ sat <- pca(sat, bcde = "B004n")
 }
 }
 \references{
-None.
+Benjamin Leutner and Ned Horning (2016). RStoolbox: Tools for Remote Sensing 
+Data Analysis. R package version 0.1.6. 
+https://CRAN.R-project.org/package=RStoolbox
 }
 
