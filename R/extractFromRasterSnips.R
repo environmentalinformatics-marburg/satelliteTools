@@ -43,9 +43,15 @@ extractFromRasterSnips <- function(raster, spatial, selector = NULL, buffer = NU
   
   plots <- lapply(seq(lspt), function(i){
     if(i %% 10 == 0) print(paste0("Processing ", i, " of ", lspt))
-
-    rid <- which(raster_selector_ids %in% spatial[i,]@data[selector])
-    
+    if(!is.null(selector)){
+      rid <- which(raster_selector_ids %in% spatial[i,]@data[selector])
+      if(length(rid) > 1){
+        rid <- rid[1]
+        raster_selector_ids[rid] <- NA
+      }
+    } else {
+      rid <- i
+    }
     plots <- extract(raster[[rid]], 
                      spatial[i,], sp = TRUE)
     
@@ -53,12 +59,12 @@ extractFromRasterSnips <- function(raster, spatial, selector = NULL, buffer = NU
       plots_buffer <- extract(raster[[rid]], spatial[i,], buffer = buffer)
       
       plots_buffer_stat <- cbind(
-        spatial[i, ]@data[selector],
+        #spatial[i, ]@data[selector],
         as.data.frame(t(apply(plots_buffer[[1]], 2, mean))),
         as.data.frame(t(apply(plots_buffer[[1]], 2, sd))))
-      l <- length(colnames(plots_buffer_stat))-1
-      colnames(plots_buffer_stat)[2:(l/2+1)] <- paste0(colnames(plots_buffer_stat)[2:(l/2+1)], "_mean")
-      colnames(plots_buffer_stat)[(l/2+1):l+1] <- paste0(colnames(plots_buffer_stat)[(l/2+1):l+1], "_sd")
+      l <- length(colnames(plots_buffer_stat))
+      colnames(plots_buffer_stat)[1:(l/2)] <- paste0(colnames(plots_buffer_stat)[1:(l/2)], "_mean")
+      colnames(plots_buffer_stat)[(l/2+1):l] <- paste0(colnames(plots_buffer_stat)[(l/2+1):l], "_sd")
       
       plots <- merge(plots, plots_buffer_stat)
     }
@@ -67,3 +73,4 @@ extractFromRasterSnips <- function(raster, spatial, selector = NULL, buffer = NU
   plots <- do.call("rbind", plots)
   return(plots)
 }
+
