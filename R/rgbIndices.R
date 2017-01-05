@@ -152,7 +152,7 @@ rgbIndices<- function(rgb,
       
     } else if (item=="NGRDI"){
       # NGRDI Normalized green red difference index 
-      cat("\ncalculate Normalized green red difference index  (NGRI)")
+      cat("\ncalculate Normalized green red difference index  (NGRDI)")
       NGRDI<-(green-red)/(green+red) 
       names(NGRDI) <- "NGRDI"
       return(NGRDI)

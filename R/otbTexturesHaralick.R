@@ -65,7 +65,7 @@ setMethod("otbTexturesHaralick",
                    channel=NULL,
                    verbose=FALSE,
                    ram="8192"){
-            writeRaster(x, file = paste0(path_output, "tmp.tif"), overwrite = TRUE)
+            raster::writeRaster(x, file = paste0(path_output, "tmp.tif"), overwrite = TRUE)
             x <- paste0(path_output, "tmp.tif")
             tempout <- format(Sys.time(), "%Y-%m-%d-%H%M%S")
             ret_textures <- otbTexturesHaralick(x = x,
@@ -205,7 +205,7 @@ setMethod("otbTexturesHaralick",
                                     , " -parameters.nbbin ",parameters.nbbin,
                                     " -texture ",txt)
                     if (verbose) {
-                      cat("\nrunning cmd:  ", command[band],"\n")
+                      cat("\nrunning cmd:  ", command,"\n")
                       system(command)
                     } else{
                       system(command,intern = TRUE,ignore.stdout = TRUE)
