@@ -11,17 +11,17 @@
 #' @return 
 #' @seealso 
 #' A \code{RasterLayer} with the index calculates as:\cr
-#' VARI (green-red)/(green+red-blue). A Visible Atmospherically Resistant Index (VARI)\cr
 #' BI  sqrt((R**2+G**2+B*2)/3 Brightness Index\cr
-#' SI (R-B)/(R+B) Spectra Slope Saturation Index\cr
-#' HI (2*R-G-B)/(G-B) Primary colours Hue Index\cr
 #' CI (R-G)/(R+G) Soil Colour Index\cr
-#' RI R**2/(B*G**3) Redness Index\cr
+#' GLI (2*g - r - b)/(2*g + r + b) Green leaf index Vis Louhaichi et al. (2001)\cr
+#' HI (2*R-G-B)/(G-B) Primary colours Hue Index\cr
 #' NDTI (R-G)/(R+G) Normalized difference turbidity index Water\cr
 #' NGRDI (G-R)/(G+R) Normalized green red difference index (sometimes GRVI) Tucker (1979)
-#' VVI  (1-(r-30)/(r+30))*(1-(g-50)/(g+50))*(1-(b-1)/(b+1))\cr
+#' RI R**2/(B*G**3) Redness Index\cr
+#' SI (R-B)/(R+B) Spectral Slope Saturation Index\cr
 #' TGI  -0.5[190(R670-R550)-120(R670 - R480)] The triangular greenness index (TGI) estimates chlorophyll concentration in leaves and canopies\cr
-#' GLI Green leaf index Vis GLI (2*g - r - b)/(2*g + r + b) Louhaichi et al. (2001)
+#' VARI (green-red)/(green+red-blue). A Visible Atmospherically Resistant Index (VARI)\cr
+#' VVI  (1-(r-30)/(r+30))*(1-(g-50)/(g+50))*(1-(b-1)/(b+1))
 #' 
 #' @author
 #' Chris Reudenbach
@@ -63,10 +63,7 @@
 #' 
 #' 
 rgbIndices<- function(rgb,
-                rgbi=c("red","green","blue","VVI","VARI","NDTI","RI","CI","BI","SI","HI","TGI","GLI","NGRDI"),
-                write_tif=FALSE,
-                path_output=getwd(),
-                output_name="rgbi") {
+                      rgbi=c("VVI","VARI","NDTI","RI","CI","BI","SI","HI","TGI","GLI","NGRDI")) {
   
   ## compatibility check
   if (raster::nlayers(rgb) < 3)
@@ -79,93 +76,88 @@ rgbIndices<- function(rgb,
   red <- rgb[[1]]
   green <- rgb[[2]]
   blue <- rgb[[3]]
-  resultStack<-raster::stack(red,green,blue)
-  names(resultStack) <- c("red","green","blue")
-  for (item in rgbi) {
+  
+  indices <- lapply(rgbi, function(item){
     ## calculate Visible Vegetation Index vvi
     if (item=="VVI"){
       cat("\ncalculate Visible Vegetation Index (VVI)")
       VVI <- (1 - abs((red - 30) / (red + 30))) * 
         (1 - abs((green - 50) / (green + 50))) * 
         (1 - abs((blue - 1) / (blue + 1)))
-      resultStack<-  raster::stack(resultStack,VVI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"VVI")
+      names(VVI) <- "VVI"
+      return(VVI)
       
     } else if (item=="VARI"){
       # calculate Visible Atmospherically Resistant Index (VARI)
       cat("\ncalculate Visible Atmospherically Resistant Index (VARI)")
       VARI<-(green-red)/(green+red-blue)
-      resultStack<-  raster::stack(resultStack,VARI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"VARI")
+      names(VARI) <- "VARI"
+      return(VARI)
       
     } else if (item=="NDTI"){
       ## Normalized difference turbidity index
       cat("\ncalculate Normalized difference turbidity index (NDTI)")
       NDTI<-(red-green)/(red+green)
-      resultStack<-  raster::stack(resultStack,NDTI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"NDTI")
+      names(NDTI) <- "NDTI"
+      return(NDTI)
       
     } else if (item=="RI"){
       # redness index
       cat("\ncalculate redness index (RI)")
       RI<-red**2/(blue*green**3)
-      resultStack<-  raster::stack(resultStack,RI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"RI")
+      names(RI) <- "RI"
+      return(RI)
       
     } else if (item=="CI"){
       # CI Soil Colour Index
       cat("\ncalculate Soil Colour Index (CI)")
       CI<-(red-green)/(red+green)
-      resultStack<-  raster::stack(resultStack,CI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"CI")
+      names(CI) <- "CI"
+      return(CI)
       
     } else if (item=="BI"){
       #  Brightness Index
       cat("\ncalculate Brightness Index (BI)")
       BI<-sqrt((red**2+green**2+blue*2)/3)
-      resultStack<-  raster::stack(resultStack,BI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"BI")
+      names(BI) <- "BI"
+      return(BI)
       
     } else if (item=="SI"){
       # SI Spectra Slope Saturation Index
       cat("\ncalculate Spectra Slope Saturation Index (SI)")
       SI<-(red-blue)/(red+blue) 
-      resultStack<-  raster::stack(resultStack,SI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"SI")
+      names(SI) <- "SI"
+      return(SI)
       
     } else if (item=="HI"){    
       # HI Primary colours Hue Index
       cat("\ncalculate Primary colours Hue Index (HI)")
       HI<-(2*red-green-blue)/(green-blue)
-      resultStack<-  raster::stack(resultStack,HI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"HI")
+      names(HI) <- "HI"
+      return(HI)
       
     } else if (item=="TGI"){
       # Triangular greenness index
       cat("\ncalculate Triangular greenness index (TGI)")
       TGI <- -0.5*(190*(red - green)- 120*(red - blue))
-      resultStack<-  raster::stack(resultStack,TGI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"TGI")
+      names(TGI) <- "TGI"
+      return(TGI)
       
     } else if (item=="GLI"){
       cat("\ncalculate Green leaf index (GLI)")
       # Green leaf index
       GLI<-(2*green-red-blue)/(2*green+red+blue)
-      resultStack<-  raster::stack(resultStack,GLI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"GLI")
+      names(GLI) <- "GLI"
+      return(GLI)
       
     } else if (item=="NGRDI"){
       # NGRDI Normalized green red difference index 
       cat("\ncalculate Normalized green red difference index  (NGRI)")
       NGRDI<-(green-red)/(green+red) 
-      resultStack<-  raster::stack(resultStack,NGRDI)
-      names(resultStack) <- c(names(resultStack)[1:length(names(resultStack))-1],"NGRI")
+      names(NGRDI) <- "NGRDI"
+      return(NGRDI)
       
     }  
-    
-  }
-  
-  if (write_tif) raster::writeRaster(x = resultStack,filename = paste0(path_output,output_name,".tif"),overwrite=TRUE)
-  ## return rgbi
-  return(resultStack)
+  })
+  return(raster::stack(indices))
 }

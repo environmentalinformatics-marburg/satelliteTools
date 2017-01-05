@@ -4,9 +4,8 @@
 \alias{rgbIndices}
 \title{RGB indices}
 \usage{
-rgbIndices(rgb, rgbi = c("red", "green", "blue", "VVI", "VARI", "NDTI", "RI",
-  "CI", "BI", "SI", "HI", "TGI", "GLI", "NGRDI"), write_tif = FALSE,
-  path_output = getwd(), output_name = "rgbi")
+rgbIndices(rgb, rgbi = c("VVI", "VARI", "NDTI", "RI", "CI", "BI", "SI", "HI",
+  "TGI", "GLI", "NGRDI"))
 }
 \arguments{
 \item{rgb}{a \code{RasterStack} or \code{RasterBrick} object. 3
@@ -51,17 +50,17 @@ Tucker, C.J., 1979. Red and photographic infrared linear combinations for monito
 }
 \seealso{
 A \code{RasterLayer} with the index calculates as:\cr
-VARI (green-red)/(green+red-blue). A Visible Atmospherically Resistant Index (VARI)\cr
 BI  sqrt((R**2+G**2+B*2)/3 Brightness Index\cr
-SI (R-B)/(R+B) Spectra Slope Saturation Index\cr
-HI (2*R-G-B)/(G-B) Primary colours Hue Index\cr
 CI (R-G)/(R+G) Soil Colour Index\cr
-RI R**2/(B*G**3) Redness Index\cr
+GLI (2*g - r - b)/(2*g + r + b) Green leaf index Vis Louhaichi et al. (2001)\cr
+HI (2*R-G-B)/(G-B) Primary colours Hue Index\cr
 NDTI (R-G)/(R+G) Normalized difference turbidity index Water\cr
 NGRDI (G-R)/(G+R) Normalized green red difference index (sometimes GRVI) Tucker (1979)
-VVI  (1-(r-30)/(r+30))*(1-(g-50)/(g+50))*(1-(b-1)/(b+1))\cr
+RI R**2/(B*G**3) Redness Index\cr
+SI (R-B)/(R+B) Spectral Slope Saturation Index\cr
 TGI  -0.5[190(R670-R550)-120(R670 - R480)] The triangular greenness index (TGI) estimates chlorophyll concentration in leaves and canopies\cr
-GLI Green leaf index Vis GLI (2*g - r - b)/(2*g + r + b) Louhaichi et al. (2001)
+VARI (green-red)/(green+red-blue). A Visible Atmospherically Resistant Index (VARI)\cr
+VVI  (1-(r-30)/(r+30))*(1-(g-50)/(g+50))*(1-(b-1)/(b+1))
 
 For a comprehensive overview of remote sensing indices have a look at: \url{http://www.indexdatabase.de/db/i.php}(A database for remote sensing indices)\cr
 Wavelength ranges for overlapping digital camera bands are: red 580-670 nm, green 480-610 nm, and blue 400-520 nm (Hunt et al., 2005)
