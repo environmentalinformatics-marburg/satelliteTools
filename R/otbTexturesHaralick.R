@@ -248,11 +248,27 @@ setMethod("otbTexturesHaralick",
                     }
                     return(ret_textures)
                   })
-                  raster::stack(ret_textures)
+                  if(is.null(ret_textures[[1]])){
+                    return(NULL)
+                  } else {
+                    return(raster::stack(ret_textures))  
+                  }
                 })
-                raster::stack(ret_textures)
+                if(is.null(ret_textures[[1]])){
+                  return(NULL)
+                } else {
+                  return(raster::stack(ret_textures))  
+                }
               })
-              raster::stack(ret_textures)
+              if(is.null(ret_textures[[1]])){
+                return(NULL)
+              } else {
+                return(raster::stack(ret_textures))  
+              }
             })
-            raster::stack(ret_textures)
+            if(is.null(ret_textures[[1]])){
+              return(NULL)
+            } else {
+              return(raster::stack(ret_textures))  
+            }
           })

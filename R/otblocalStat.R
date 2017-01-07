@@ -135,14 +135,14 @@ setMethod("otbLocalStat",
   
   locstat <- lapply(channel, function(band){
     path_outfile <- paste0(path_output,
-                           "band_", band, "_", 
                            output_name, "_",
+                           "band_", band, "_", 
                            radius,
                            ".tif")
 
     command<-paste0(otbPath, "otbcli_LocalStatisticExtraction",
                     " -in ", x,
-                    " -channel ", channel,
+                    " -channel ", band,
                     " -out ", path_outfile,
                     " -radius ", radius,
                     " -ram ",ram)
@@ -152,7 +152,7 @@ setMethod("otbLocalStat",
       system(command)
     } else {
       system(command,intern = TRUE,ignore.stdout = TRUE)
-      }  
+    }  
     
     if(return_raster){
       locstat <- readAll(raster::stack(path_outfile))
@@ -164,5 +164,9 @@ setMethod("otbLocalStat",
     }
     return(locstat)
   })
-  return(raster::stack(locstat))
+  if(is.null(locstat[[1]])){
+    return(NULL)
+  } else {
+    return(raster::stack(locstat))  
+  }
 })
