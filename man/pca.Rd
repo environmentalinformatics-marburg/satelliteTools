@@ -43,7 +43,7 @@ Calculate principal components from raster data values. The
 raster can either be supplied as \code{Raster*} object, \code{satellite*}
 object or as a list of \code{Raster*} objects. The latter is usefull if the
 raster dataset has been tiled into small observation areas using e.g. 
-\code{\ling{snipRaster}}.
+\code{\link{snipRaster}}.
 }
 \details{
 The method for \code{Raster*} and \code{Satellite*} objects is basically a

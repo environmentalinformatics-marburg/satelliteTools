@@ -8,7 +8,7 @@ if ( !isGeneric("pca") ) {
 #' raster can either be supplied as \code{Raster*} object, \code{satellite*}
 #' object or as a list of \code{Raster*} objects. The latter is usefull if the
 #' raster dataset has been tiled into small observation areas using e.g. 
-#' \code{\ling{snipRaster}}.
+#' \code{\link{snipRaster}}.
 #' 
 #' @param x \code{Satellite}, \code{Raster*} or \code{list} of \code{Raster*} 
 #' objects
@@ -53,9 +53,8 @@ NULL
 
 
 # Function using satellite object ----------------------------------------------
-#' 
 #' @rdname pca
-#'
+#' 
 setMethod("pca", 
           signature(x = "Satellite"), 
           function(x, bcde, prfx=NULL, return_raster = FALSE, ...){
