@@ -11,23 +11,20 @@
 \usage{
 \S4method{otbcli_MeanShiftSmoothing}{RasterBrick}(x, path_temp = NULL,
   return_raster = TRUE, spatialr = 5, range = 15, thres = 0.1,
-  maxiter = 100, rangeramp = 0, modesearch = "True", verbose = FALSE,
-  ram = "8192")
+  maxiter = 100, rangeramp = 0, verbose = FALSE, ram = "8192")
 
 \S4method{otbcli_MeanShiftSmoothing}{RasterLayer}(x, path_temp = NULL,
   return_raster = TRUE, spatialr = 5, range = 15, thres = 0.1,
-  maxiter = 100, rangeramp = 0, modesearch = "True", verbose = FALSE,
-  ram = "8192")
+  maxiter = 100, rangeramp = 0, verbose = FALSE, ram = "8192")
 
 \S4method{otbcli_MeanShiftSmoothing}{RasterStack}(x, path_temp = NULL,
   return_raster = TRUE, spatialr = 5, range = 15, thres = 0.1,
-  maxiter = 100, rangeramp = 0, modesearch = "True", verbose = FALSE,
-  ram = "8192")
+  maxiter = 100, rangeramp = 0, verbose = FALSE, ram = "8192")
 
 \S4method{otbcli_MeanShiftSmoothing}{character}(x, outfile_filter = NULL,
   outfile_spatial = NULL, return_raster = FALSE, spatialr = 5,
   range = 15, thres = 0.1, maxiter = 100, rangeramp = 0,
-  modesearch = "True", verbose = FALSE, ram = "8192")
+  verbose = FALSE, ram = "8192")
 }
 \arguments{
 \item{x}{A \code{Raster*} object or a gdall raster containing 1 or more gray 
@@ -46,8 +43,6 @@ value bands}
 \item{maxiter}{Maximum number of iterations}
 
 \item{rangeramp}{Spectral range coefficient}
-
-\item{modesearch}{Mode search}
 
 \item{verbose}{switch for system messages default is FALSE}
 
