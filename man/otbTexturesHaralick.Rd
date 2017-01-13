@@ -7,8 +7,8 @@
 \alias{otbTexturesHaralick,RasterLayer-method}
 \alias{otbTexturesHaralick,RasterStack-method}
 \alias{otbTexturesHaralick,character-method}
-\title{Calculate selected texture parameters on gray level properties (mainly after
-Haralick).}
+\title{This application computes Haralick, simple, advanced and higher order texture features on every pixel in the each channel 
+of the input image (stack)}
 \usage{
 \S4method{otbTexturesHaralick}{RasterBrick}(x, texture = "all",
   path_output = NULL, return_raster = TRUE, parameters.xyrad = list(c(1,
@@ -32,10 +32,10 @@ Haralick).}
   verbose = FALSE, ram = "8192")
 }
 \arguments{
-\item{x}{A \code{Raster*} object or a GeoTiff containing 1 or more gray 
+\item{x}{A \code{\link{Raster*}} object or a GeoTiff containing 1 or more gray 
 value bands}
 
-\item{texture}{type of filter "simple" "advanced" "higher"}
+\item{texture}{type of filter "all" for all, alternative one of "simple" "advanced" "higher"}
 
 \item{return_raster}{boolean if TRUE a raster stack is returned}
 
@@ -64,23 +64,59 @@ A list of RasterStacks containing the texture parameters for each
 combination of channel and filter
 }
 \description{
-Calculate selected texture parameters on gray level properties (mainly after
-Haralick).
+This application computes Haralick, simple, advanced and higher order texture features on every pixel in the each channel 
+of the input image (stack)
+}
+\details{
+\href{https://www.orfeo-toolbox.org//doxygen/classotb_1_1ScalarImageToTexturesFilter.html}{"simple"}:\cr
+computes the following 8 local Haralick textures features: Energy, Entropy, Correlation, Inverse Difference Moment, Inertia, Cluster Shade, Cluster Prominence and Haralick Correlation. They are provided in this exact order in the output image. Thus, this application computes the following Haralick textures over a neighborhood with user defined radius.\cr
+To improve the speed of computation, a variant of Grey Level Co-occurrence Matrix(GLCM) called Grey Level Co-occurrence Indexed List (GLCIL) is used. Given below is the mathematical explanation on the computation of each textures. Here \code{g( i,j)} is the frequency of element in the GLCIL whose index is \code{i,j}. GLCIL stores a pair of frequency of two pixels from the given offset and the cell index \code{(i,j)} of the pixel in the neighborhood window. Where each element in GLCIL is a pair of pixel index and it's frequency, \code{g(i,j)} is the frequency value of the pair having index is \code{i,j}.\cr\cr
+Energy  \if{html}{\figure{form_energy.png}{options:   alt="Energy"}}\cr
+Entropy  \if{html}{\figure{form_Entropy.png}{options:   alt="Entropy"}}\cr
+Correlation  \if{html}{\figure{form_Correlation.png}{options:   alt="Correlation"}}\cr
+Contrast  \if{html}{\figure{form_Contrast.png}{options:   alt="Contrast"}}\cr
+Cluster Shade  \if{html}{\figure{form_Cluster_Shade.png}{options:   alt="Cluster Shade"}}\cr
+Cluster Prominence  \if{html}{\figure{form_Cluster_Prominence.png}{options:   alt="Cluster Prominence"}}\cr
+Haralick's Correlation  \if{html}{\figure{form_Hara_Cor.png}{options:   alt="Haralick's Correlation"}}\cr\cr
+\href{https://www.orfeo-toolbox.org//doxygen/classotb_1_1ScalarImageToAdvancedTexturesFilter.html}{"advanced"}:\cr
+computes the following 10 texture features: Mean, Variance, Dissimilarity, Sum Average, Sum Variance, Sum Entropy, Difference of Entropies, Difference of Variances, IC1 and IC2. They are provided in this exact order in the output image. The textures are computed over a sliding window with user defined radius. To improve the speed of computation, a variant of Grey Level Co-occurrence Matrix(GLCM) called Grey Level Co-occurrence Indexed List (GLCIL) is used. Given below is the mathematical explanation on the computation of each textures. Here \code{g( i,j)} is the frequency of element in the GLCIL whose index is \code{ i,j}. GLCIL stores a pair of frequency of two pixels from the given offset and the cell index \code{( i,j)} of the pixel in the neighborhood window. (where each element in GLCIL is a pair of pixel index and it's frequency, \code{g( i,j)} is the frequency value of the pair having index is \code{ i,j}.\cr\cr
+Mean  \if{html}{\figure{form_mean.png}{options:   alt="Mean"}}\cr
+Sum of squares: Variance  \if{html}{\figure{form_form_sum_of_squares_variance.png}{options:   alt="Sum of squares: Variance"}}\cr
+Dissimilarity \if{html}{\figure{form_Dissimilarity.png}{options:   alt="Dissimilarity"}}\cr
+Sum average \if{html}{\figure{form_Sum_average.png}{options:   alt="Sum average"}}\cr
+Sum Variance \if{html}{\figure{form_Sum_Variance.png}{options:   alt="Sum Variance"}}\cr
+Sum Entropy \if{html}{\figure{form_Sum_Entropy.png}{options:   alt="Sum Entropy"}}\cr    
+Difference variance \if{html}{\figure{form_Difference_variance.png}{options:   alt="Difference variance"}}\cr    
+Difference entropy \if{html}{\figure{form_Difference_entropy.png}{options:   alt="Difference entropy"}}\cr    
+Information Measures of Correlation IC1 \if{html}{\figure{form_Information_Measures_of_Correlation_IC1.png}{options:   alt="Information Measures of Correlation IC1"}}\cr    
+Information Measures of Correlation IC2 \if{html}{\figure{form_Information_Measures_of_Correlation_IC2.png}{options:   alt="Information Measures of Correlation IC2"}}\cr\cr    
+
+\href{https://www.orfeo-toolbox.org//doxygen/classotb_1_1ScalarImageToHigherOrderTexturesFilter.html}{"higher"}: \cr\cr
+computes 11 local higher order statistics textures coefficients based on the grey level run-length matrix.
+It computes the following Haralick textures over a sliding window with user defined radius: (where p( i,j) is the element in cell  i,j of a normalized Run Length Matrix (n_r) is the total number of runs and n_p is the total number of pixels ):\cr
+Short Run Emphasis \if{html}{\figure{form_Short_Run_Emphasis.png}{options:   alt="Short_Run_Emphasis"}}\cr
+Long Run Emphasis \if{html}{\figure{form_Long_Run_Emphasis.png}{options:   alt="Long Run Emphasis"}}\cr
+Grey-Level Nonuniformity \if{html}{\figure{form_Grey_Level_Nonuniformity.png}{options:   alt="Grey-Level Nonuniformity"}}\cr
+Run Length Nonuniformity \if{html}{\figure{form_Run_Length_Nonuniformity.png}{options:   alt="Run Length Nonuniformity"}}\cr
+Low Grey-Level Run Emphasis \if{html}{\figure{form_Low_Grey_Level_Run_Emphasis.png}{options:   alt="Low Grey-Level Run Emphasis"}}\cr
+High Grey-Level Run Emphasis \if{html}{\figure{form_High_Grey_Level_Run_Emphasis.png}{options:   alt="High Grey-Level Run Emphasis"}}\cr
+Short Run Low Grey-Level Emphasis \if{html}{\figure{form_Short_Run_Low_Grey_Level_Emphasis.png}{options:   alt="Short Run Low Grey-Level Emphasis"}}\cr
+Short Run High Grey-Level Emphasis \if{html}{\figure{form_Short_Run_High_Grey_Level_Emphasis.png}{options:   alt="Short Run High Grey-Level Emphasis"}}\cr
+Long Run Low Grey-Level Emphasis \if{html}{\figure{form_Long_Run_Low_Grey_Level_Emphasis.png}{options:   alt="Long Run Low Grey-Level Emphasis"}}\cr
+Long Run High Grey-Level Emphasis \if{html}{\figure{form_Long_Run_High_Grey_Level_Emphasis.png}{options:   alt="Long Run High Grey-Level Emphasis"}}\cr
 }
 \note{
-the otb is used for filtering. please provide a GeoTiff file
-
-More information at the texture tutorial site of
-\link{http://www.fp.ucalgary.ca/mhallbey/more_informaton.htm}(Mryka Hall-Beyer)
-Keep in mind that:\cr
-Homogeneity is correlated with Contrast,  r = -0.80
-Homogeneity is correlated with Dissimilarity, r = -0.95
-GLCM Variance is correlated with Contrast,  r= 0.89
-GLCM Variance is correlated with Dissimilarity,  r= 0.91
-GLCM Variance is correlated with Homogeneity,  r= -0.83
-Entropy is correlated with ASM,  r= -0.87
-GLCM Mean and Correlation are more independent. For the same image,
-GLCM Mean shows  r< 0.1 with any of the other texture measures demonstrated in this tutorial.
+The following Haralick textures are largely comparable to the results as derived by the \code{\link{glcm}} package. Find more information about the these common texture indices at the tutorial site of
+\href{http://www.fp.ucalgary.ca/mhallbey/more_informaton.htm}{Mryka Hall-Beyer}\cr
+Keep further in mind that this texture features are highly correlated:\cr
+Homogeneity is correlated with Contrast,  r = -0.80\cr
+Homogeneity is correlated with Dissimilarity, r = -0.95\cr
+GLCM Variance is correlated with Contrast,  r= 0.89\cr
+GLCM Variance is correlated with Dissimilarity,  r= 0.91\cr
+GLCM Variance is correlated with Homogeneity,  r= -0.83\cr
+Entropy is correlated with ASM,  r= -0.87\cr
+GLCM Mean and Correlation are more independent. For the same image:\cr
+GLCM Mean shows  r< 0.1 with any of the other texture measures.\cr
 GLCM Correlation shows  r<0.5 with any other measure.
 }
 \examples{
@@ -88,10 +124,14 @@ GLCM Correlation shows  r<0.5 with any other measure.
 url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip"
 res <- curl::curl_download(url, "testdata.zip")
 unzip(res,junkpaths = TRUE,overwrite = TRUE)
-otbTexturesHaralick(x=paste0(getwd(),"4490600_5321400.tif"),texture="simple")
+otbPath <- initOTB()
+otbTexturesHaralick(x=file.path(getwd(),"4490600_5321400.tif"),texture="simple")
 }
 }
 \author{
 Chris Reudenbach, Thomas Nauss
+}
+\references{
+Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for Image Classification. IEEE Transactions on Systems, Man and Cybernetics. SMC-3(6):610-620.
 }
 

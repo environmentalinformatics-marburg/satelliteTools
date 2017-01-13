@@ -2,27 +2,32 @@
 % Please edit documentation in R/initOTB.R
 \name{initOTB}
 \alias{initOTB}
-\title{getOTB setup the orfeo toolbox bindings for an rsession}
+\title{initOTB setup the orfeo toolbox bindings for an rsession}
 \usage{
-initOTB(path_otb = NULL, path_otb_root = paste0(dirname(path_otb), "/"),
-  otb_type = NULL, dl = "C:")
+initOTB(defaultOTBPath = NULL, installationRoot = NULL, otbType = NULL,
+  DL = "C:", otbselect = FALSE)
 }
 \arguments{
-\item{path_otb}{string contains path to otb binaries}
+\item{defaultOTBPath}{string contains path to otb binaries}
 
-\item{dl}{hard drive letter}
+\item{DL}{hard drive letter}
 }
 \value{
 add otb pathes to the enviroment and creates global variables otbPath
 }
 \description{
-Try to find all valid OTB installation and returns the pathes and environment settings
+initOTB trys to find all valid OTB installation and returns the pathes and environment settings
+}
+\details{
+initOTB
 }
 \examples{
 \dontrun{
 ## call it for a default OSGeo4W oinstallation of SAGA
 initOTB("C:\\\\OSGeo4W64\\\\bin\\\\")
 }
-
+}
+\author{
+CR
 }
 
