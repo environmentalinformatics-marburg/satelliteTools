@@ -10,24 +10,21 @@
 \title{Calculates a mean shift filtering (required for object based classification)}
 \usage{
 \S4method{otbcli_MeanShiftSmoothing}{RasterBrick}(x, path_temp = NULL,
-  return_raster = TRUE, spatialr = 5, range = 15, thres = 0.1,
-  maxiter = 100, rangeramp = 0, modesearch = "True", verbose = FALSE,
-  ram = "8192")
+  return_raster = TRUE, spatialr = 5, ranger = 15, thres = 0.1,
+  maxiter = 100, rangeramp = 0, verbose = FALSE, ram = "8192")
 
 \S4method{otbcli_MeanShiftSmoothing}{RasterLayer}(x, path_temp = NULL,
-  return_raster = TRUE, spatialr = 5, range = 15, thres = 0.1,
-  maxiter = 100, rangeramp = 0, modesearch = "True", verbose = FALSE,
-  ram = "8192")
+  return_raster = TRUE, spatialr = 5, ranger = 15, thres = 0.1,
+  maxiter = 100, rangeramp = 0, verbose = FALSE, ram = "8192")
 
 \S4method{otbcli_MeanShiftSmoothing}{RasterStack}(x, path_temp = NULL,
-  return_raster = TRUE, spatialr = 5, range = 15, thres = 0.1,
-  maxiter = 100, rangeramp = 0, modesearch = "True", verbose = FALSE,
-  ram = "8192")
+  return_raster = TRUE, spatialr = 5, ranger = 15, thres = 0.1,
+  maxiter = 100, rangeramp = 0, verbose = FALSE, ram = "8192")
 
 \S4method{otbcli_MeanShiftSmoothing}{character}(x, outfile_filter = NULL,
   outfile_spatial = NULL, return_raster = FALSE, spatialr = 5,
-  range = 15, thres = 0.1, maxiter = 100, rangeramp = 0,
-  modesearch = "True", verbose = FALSE, ram = "8192")
+  ranger = 15, thres = 0.1, maxiter = 100, rangeramp = 0,
+  verbose = FALSE, ram = "8192")
 }
 \arguments{
 \item{x}{A \code{Raster*} object or a gdall raster containing 1 or more gray 
@@ -39,19 +36,21 @@ value bands}
 
 \item{spatialr}{Computational radius in euclidian distance (m)}
 
-\item{range}{Range in multi-spectral space to be grouped into one}
+\item{ranger}{ranger in multi-spectral space to be grouped into one}
 
 \item{thres}{Mode convergence threshold}
 
 \item{maxiter}{Maximum number of iterations}
 
-\item{rangeramp}{Spectral range coefficient}
-
-\item{modesearch}{Mode search}
+\item{rangeramp}{Spectral ranger coefficient}
 
 \item{verbose}{switch for system messages default is FALSE}
 
 \item{ram}{reserved memory in MB}
+
+\item{outfile_filter}{The filtered output file}
+
+\item{outfile_spatial}{The spatial output file}
 }
 \description{
 Calculates a mean shift filtering
