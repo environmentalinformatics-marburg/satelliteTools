@@ -7,7 +7,7 @@
 \alias{otbTexturesHaralick,RasterLayer-method}
 \alias{otbTexturesHaralick,RasterStack-method}
 \alias{otbTexturesHaralick,character-method}
-\title{This application computes Haralick, simple, advanced and higher order texture features on every pixel in the each channel 
+\title{Computes Haralick, simple, advanced and higher order texture features on every pixel in each channel 
 of the input image (stack)}
 \usage{
 \S4method{otbTexturesHaralick}{RasterBrick}(x, texture = "all",
@@ -64,7 +64,7 @@ A list of RasterStacks containing the texture parameters for each
 combination of channel and filter
 }
 \description{
-This application computes Haralick, simple, advanced and higher order texture features on every pixel in the each channel 
+Computes Haralick, simple, advanced and higher order texture features on every pixel in each channel 
 of the input image (stack)
 }
 \details{
@@ -109,12 +109,12 @@ Long Run High Grey-Level Emphasis \if{html}{\figure{form_Long_Run_High_Grey_Leve
 The following Haralick textures are largely comparable to the results as derived by the \code{\link{glcm}} package. Find more information about the these common texture indices at the tutorial site of
 \href{http://www.fp.ucalgary.ca/mhallbey/more_informaton.htm}{Mryka Hall-Beyer}\cr
 Keep further in mind that this texture features are highly correlated:\cr
-Homogeneity is correlated with Contrast,  r = -0.80\cr
-Homogeneity is correlated with Dissimilarity, r = -0.95\cr
-GLCM Variance is correlated with Contrast,  r= 0.89\cr
-GLCM Variance is correlated with Dissimilarity,  r= 0.91\cr
-GLCM Variance is correlated with Homogeneity,  r= -0.83\cr
-Entropy is correlated with ASM,  r= -0.87\cr
+Homogeneity  with Contrast,  r = -0.80\cr
+Homogeneity  with Dissimilarity, r = -0.95\cr
+GLCM Variance  with Contrast,  r= 0.89\cr
+GLCM Variance with Dissimilarity,  r= 0.91\cr
+GLCM Variance  with Homogeneity,  r= -0.83\cr
+Entropy  with ASM,  r= -0.87\cr
 GLCM Mean and Correlation are more independent. For the same image:\cr
 GLCM Mean shows  r< 0.1 with any of the other texture measures.\cr
 GLCM Correlation shows  r<0.5 with any other measure.
@@ -133,5 +133,6 @@ Chris Reudenbach, Thomas Nauss
 }
 \references{
 Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for Image Classification. IEEE Transactions on Systems, Man and Cybernetics. SMC-3(6):610-620.
+\href{https://www.orfeo-toolbox.org/packages/OTBSoftwareGuide.pdf}{Orfeo Toolbox Sofware Guide, 2016}
 }
 
