@@ -50,17 +50,31 @@ setMethod("sampleRasterFromPolygons",
 setMethod("sampleRasterFromPolygons", 
           signature(x = "RasterStack"), 
           function(x, poly, nbr = 50, res = raster::res(x), ...){
+            data <- sampleRasterFromPolygons(x = brick(x),
+                                             poly = poly,
+                                             nbr = nbr,
+                                             res = res,
+                                             ...)
+            return(data)
+          })
+
+# Function using raster::RasterStack object ------------------------------------
+#' 
+#' @rdname sampleRasterFromPolygons
+#'
+setMethod("sampleRasterFromPolygons", 
+          signature(x = "RasterBrick"), 
+          function(x, poly, nbr = 50, res = raster::res(x), ...){
           
             points <- lapply(seq(length(poly)), function(i){
               if(i%%10 == 0) print(paste0("Processing polygon ", i))
               buffer <- gBuffer(gCentroid(poly[i, ]), width = nbr)
               
-              bb <- resolution * round(sp::bbox(buffer)/resolution, 0)
+              bb <- res * round(sp::bbox(buffer)/res, 0)
               grid <- sp::GridTopology(cellcentre.offset = bb[,1],
-                                       cellsize = c(resolution, resolution),
-                                       cells.dim = (c(diff(bb[1,]), 
-                                                      diff(bb[2,]))/resolution)
-                                       + 1)
+                                       cellsize = res,
+                                       cells.dim = c(diff(bb[1,]), 
+                                                      diff(bb[2,]))/res)
               df <- poly[i,]@data
               points <- sp::SpatialPointsDataFrame(grid, 
                                                    data = df[rep(row.names(df), grid@cells.dim[1]*grid@cells.dim[2]),],

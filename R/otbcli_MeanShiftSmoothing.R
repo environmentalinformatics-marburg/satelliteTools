@@ -9,12 +9,14 @@ if ( !isGeneric("otbcli_MeanShiftSmoothing") ) {
 #' 
 #' @param x A \code{Raster*} object or a gdall raster containing 1 or more gray 
 #' value bands
+#' @param outfile_filter The filtered output file
+#' @param outfile_spatial The spatial output file
 #' @param path_temp Path of temporary output files
 #' @param spatialr Computational radius in euclidian distance (m)
-#' @param range Range in multi-spectral space to be grouped into one
+#' @param ranger ranger in multi-spectral space to be grouped into one
 #' @param thres Mode convergence threshold
 #' @param maxiter Maximum number of iterations
-#' @param rangeramp Spectral range coefficient
+#' @param rangeramp Spectral ranger coefficient
 #' @param ram reserved memory in MB
 #' @param return_raster boolean if TRUE a raster stack is returned
 #' @param verbose switch for system messages default is FALSE
@@ -40,7 +42,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                    path_temp = NULL,
                    return_raster = TRUE,
                    spatialr = 5,
-                   range = 15,
+                   ranger = 15,
                    thres = 0.1,
                    maxiter = 100,
                    rangeramp = 0,
@@ -56,7 +58,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                                              outfile_spatial = outfile_spatial,
                                              return_raster = return_raster,
                                              spatialr = spatialr,
-                                             range = range,
+                                             ranger = ranger,
                                              thres = thres,
                                              maxiter = maxiter,
                                              rangeramp = rangeramp,
@@ -81,7 +83,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                    path_temp = NULL,
                    return_raster = TRUE,
                    spatialr = 5,
-                   range = 15,
+                   ranger = 15,
                    thres = 0.1,
                    maxiter = 100,
                    rangeramp = 0,
@@ -91,7 +93,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                                              path_temp = path_temp,
                                              return_raster = return_raster,
                                              spatialr = spatialr,
-                                             range = range,
+                                             ranger = ranger,
                                              thres = thres,
                                              maxiter = maxiter,
                                              rangeramp = rangeramp,
@@ -111,7 +113,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                    path_temp = NULL,
                    return_raster = TRUE,
                    spatialr = 5,
-                   range = 15,
+                   ranger = 15,
                    thres = 0.1,
                    maxiter = 100,
                    rangeramp = 0,
@@ -121,7 +123,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                                              path_temp = path_temp,
                                              return_raster = return_raster,
                                              spatialr = spatialr,
-                                             range = range,
+                                             ranger = ranger,
                                              thres = thres,
                                              maxiter = maxiter,
                                              rangeramp = rangeramp,
@@ -142,7 +144,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                    outfile_spatial = NULL,
                    return_raster = FALSE,
                    spatialr = 5,
-                   range = 15,
+                   ranger = 15,
                    thres = 0.1,
                    maxiter = 100,
                    rangeramp = 0,
@@ -154,7 +156,7 @@ setMethod("otbcli_MeanShiftSmoothing",
                             " -fout ", outfile_filter,
                             " -foutpos ", outfile_spatial,
                             " -spatialr ", spatialr,
-                            " -ranger ", range,
+                            " -ranger ", ranger,
                             " -thres ", thres,
                             " -maxiter ", maxiter,
                             " -rangeramp ", rangeramp,
@@ -169,7 +171,7 @@ setMethod("otbcli_MeanShiftSmoothing",
             
             if(return_raster){
               mss <- readAll(raster::stack(c(outfile_filter, outfile_spatial)))
-              names(mss) <- paste0(c("filter_r", "spatial_r"), spatialr, "_rng", range)
+              names(mss) <- paste0(c("filter_r", "spatial_r"), spatialr, "_rng", ranger)
             } else {
               mss <- NULL
             }

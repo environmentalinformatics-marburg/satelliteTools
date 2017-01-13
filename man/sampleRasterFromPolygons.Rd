@@ -3,6 +3,7 @@
 \docType{methods}
 \name{sampleRasterFromPolygons}
 \alias{sampleRasterFromPolygons}
+\alias{sampleRasterFromPolygons,RasterBrick-method}
 \alias{sampleRasterFromPolygons,RasterLayer-method}
 \alias{sampleRasterFromPolygons,RasterStack-method}
 \alias{sampleRasterFromPolygons,Satellite-method}
@@ -11,6 +12,9 @@
 \S4method{sampleRasterFromPolygons}{Satellite}(x, bcde, mask = NULL, ...)
 
 \S4method{sampleRasterFromPolygons}{RasterStack}(x, poly, nbr = 50,
+  res = raster::res(x), ...)
+
+\S4method{sampleRasterFromPolygons}{RasterBrick}(x, poly, nbr = 50,
   res = raster::res(x), ...)
 
 \S4method{sampleRasterFromPolygons}{RasterLayer}(x, poly, nbr = NULL, ...)
