@@ -7,7 +7,7 @@ if ( !isGeneric("otbTexturesHaralick") ) {
 #' @description  OTB wrapper for calculating Haralick's simple, advanced and higher order texture features on every pixel in each channel 
 #' of the input image.
 #' 
-#' @param x A \code{\link{Raster*}} object or a GeoTiff containing 1 or more gray 
+#' @param x A \code{\link{Raster*}} object or a \code{\href{http://www.gdal.org/frmt_gtiff.html}{GeoTiff}} containing one or more gray 
 #' value bands
 #' @param output_name string pattern vor individual naming of the output file(s)
 #' @param parameters.xyrad list with the x and y radius in pixel indicating the kernel sizes for which the textures are calculated

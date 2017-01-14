@@ -31,7 +31,7 @@
   verbose = FALSE, ram = "8192")
 }
 \arguments{
-\item{x}{A \code{\link{Raster*}} object or a GeoTiff containing 1 or more gray 
+\item{x}{A \code{\link{Raster*}} object or a \code{\href{http://www.gdal.org/frmt_gtiff.html}{GeoTiff}} containing one or more gray 
 value bands}
 
 \item{texture}{type of filter "all" for all, alternative one of "simple" "advanced" "higher"}
