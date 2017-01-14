@@ -2,8 +2,8 @@ if ( !isGeneric("otbTexturesHaralick") ) {
   setGeneric("otbTexturesHaralick", function(x, ...)
     standardGeneric("otbTexturesHaralick"))
 }
-#' Computes Haralick, simple, advanced and higher order texture features on every pixel in each channel 
-#' of the input image (stack) 
+#'  OTB wrapper for calculating Haralick's simple, advanced and higher order texture features on every pixel in each channel 
+#' of the input image.
 #' 
 #' @param x A \code{\link{Raster*}} object or a GeoTiff containing 1 or more gray 
 #' value bands
@@ -30,7 +30,7 @@ if ( !isGeneric("otbTexturesHaralick") ) {
 #' Energy  \if{html}{\figure{form_energy.png}{options:   alt="Energy"}}\cr
 #' Entropy  \if{html}{\figure{form_Entropy.png}{options:   alt="Entropy"}}\cr
 #' Correlation  \if{html}{\figure{form_Correlation.png}{options:   alt="Correlation"}}\cr
-#' Contrast  \if{html}{\figure{form_Contrast.png}{options:   alt="Contrast"}}\cr
+#' Inertia (contrast)  \if{html}{\figure{form_Contrast.png}{options:   alt="Inertia (Contrast)"}}\cr
 #' Cluster Shade  \if{html}{\figure{form_Cluster_Shade.png}{options:   alt="Cluster Shade"}}\cr
 #' Cluster Prominence  \if{html}{\figure{form_Cluster_Prominence.png}{options:   alt="Cluster Prominence"}}\cr
 #' Haralick's Correlation  \if{html}{\figure{form_Hara_Cor.png}{options:   alt="Haralick's Correlation"}}\cr\cr
@@ -80,11 +80,15 @@ if ( !isGeneric("otbTexturesHaralick") ) {
 #' @export otbTexturesHaralick
 #' @examples 
 #' \dontrun{
+#' # get some typical authority generated data
 #' url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
 #' res <- curl::curl_download(url, "testdata.zip")
 #' unzip(res,junkpaths = TRUE,overwrite = TRUE)
-#' otbPath <- initOTB()
-#' otbTexturesHaralick(x=file.path(getwd(),"4490600_5321400.tif"),texture="simple")
+#' 
+#' # first initialisation of the OTB environment
+#' initOTB()
+#' # calculate all Haralick-textures
+#' otbTexturesHaralick(x=file.path(getwd(),"4490600_5321400.tif"))
 #' }
 NULL
 

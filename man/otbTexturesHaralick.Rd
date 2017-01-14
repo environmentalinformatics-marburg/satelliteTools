@@ -7,8 +7,8 @@
 \alias{otbTexturesHaralick,RasterLayer-method}
 \alias{otbTexturesHaralick,RasterStack-method}
 \alias{otbTexturesHaralick,character-method}
-\title{Computes Haralick, simple, advanced and higher order texture features on every pixel in each channel 
-of the input image (stack)}
+\title{OTB wrapper for calculating Haralick's simple, advanced and higher order texture features on every pixel in each channel 
+of the input image.}
 \usage{
 \S4method{otbTexturesHaralick}{RasterBrick}(x, texture = "all",
   path_output = NULL, return_raster = TRUE, parameters.xyrad = list(c(1,
@@ -64,8 +64,8 @@ A list of RasterStacks containing the texture parameters for each
 combination of channel and filter
 }
 \description{
-Computes Haralick, simple, advanced and higher order texture features on every pixel in each channel 
-of the input image (stack)
+OTB wrapper for calculating Haralick's simple, advanced and higher order texture features on every pixel in each channel 
+of the input image.
 }
 \details{
 \href{https://www.orfeo-toolbox.org//doxygen/classotb_1_1ScalarImageToTexturesFilter.html}{"simple"}:\cr
@@ -74,7 +74,7 @@ To improve the speed of computation, a variant of Grey Level Co-occurrence Matri
 Energy  \if{html}{\figure{form_energy.png}{options:   alt="Energy"}}\cr
 Entropy  \if{html}{\figure{form_Entropy.png}{options:   alt="Entropy"}}\cr
 Correlation  \if{html}{\figure{form_Correlation.png}{options:   alt="Correlation"}}\cr
-Contrast  \if{html}{\figure{form_Contrast.png}{options:   alt="Contrast"}}\cr
+Inertia (contrast)  \if{html}{\figure{form_Contrast.png}{options:   alt="Inertia (Contrast)"}}\cr
 Cluster Shade  \if{html}{\figure{form_Cluster_Shade.png}{options:   alt="Cluster Shade"}}\cr
 Cluster Prominence  \if{html}{\figure{form_Cluster_Prominence.png}{options:   alt="Cluster Prominence"}}\cr
 Haralick's Correlation  \if{html}{\figure{form_Hara_Cor.png}{options:   alt="Haralick's Correlation"}}\cr\cr
@@ -121,11 +121,15 @@ GLCM Correlation shows  r<0.5 with any other measure.
 }
 \examples{
 \dontrun{
+# get some typical authority generated data
 url<-"http://www.ldbv.bayern.de/file/zip/5619/DOP\%2040_CIR.zip"
 res <- curl::curl_download(url, "testdata.zip")
 unzip(res,junkpaths = TRUE,overwrite = TRUE)
-otbPath <- initOTB()
-otbTexturesHaralick(x=file.path(getwd(),"4490600_5321400.tif"),texture="simple")
+
+# first initialisation of the OTB environment
+initOTB()
+# calculate all Haralick-textures
+otbTexturesHaralick(x=file.path(getwd(),"4490600_5321400.tif"))
 }
 }
 \author{
