@@ -11,7 +11,7 @@
 #'@note It is strongly recommended to set the path manually. Using a osgeo4w installation it is typically \code{C:/OSGeo4W64/bin/}
 #'@author CR
 #'@return add otb pathes to the enviroment and creates global variables otbPath
-#'
+#'@details if called without any parameter \code{initOTB()} it performs a full search over the hardrive \code{C:}. If it finds one or more OTB binaries it will take the first hit. You have to set \code{selectOtbVer = TRUE} for an interactive selection of the preferred version.
 #'@export initOTB
 #'  
 #'@examples
