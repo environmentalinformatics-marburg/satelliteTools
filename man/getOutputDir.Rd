@@ -2,12 +2,12 @@
 % Please edit documentation in R/controlOTB.R
 \name{getOutputDir}
 \alias{getOutputDir}
-\title{Set texture directory if not supplied for OTB functions}
+\title{Set outpath directory if not supplied for OTB functions}
 \usage{
 getOutputDir(path_output)
 }
 \description{
-Set texture output directory if not supplied for OTB functions
+set output directory to working_directory/outpathOTB if not supplied for OTB functions
 }
 \examples{
 \dontrun{
