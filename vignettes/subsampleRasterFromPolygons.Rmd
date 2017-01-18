@@ -11,38 +11,33 @@ vignette: >
 
 
 ```{r}
-if(Sys.info()["sysname"] == "Windows"){
-  filepath_base <- "D:/active/moc/msc-phygeo-remote-sensing-2016/"
-} else {
-  filepath_base <- "/media/permanent/active/moc/msc-phygeo-remote-sensing-2016/"
-}
-
-path_data <- paste0(filepath_base, "data/")
-path_aerial <- paste0(path_data, "aerial/")
-path_aerial_merged <- paste0(path_data, "aerial_merged/")
-path_aerial_croped <- paste0(path_data, "aerial_croped/")
-path_aerial_final <- paste0(path_data, "aerial_final/")
-path_aerial_aggregated <- paste0(path_data, "aerial_aggregated/")
-path_landcover <- paste0(path_data, "landcover/")
-path_landcover_training_areas <- paste0(path_data, "landcover/training_areas/")
-path_rdata <- paste0(path_data, "RData/")
-path_scripts <- paste0(filepath_base, "scripts/msc-phygeo-remote-sensing/src/functions/")
-path_temp <- paste0(filepath_base, "temp/")
 library(raster)
 library(rgdal)
 library(sp)
 
-rasterOptions(tmpdir = path_temp)
+path_data <- tmpDir()
+rasterOptions(tmpdir = path_data)
 
-rgb <- stack(paste0(path_aerial_aggregated, "geonode_muf_merged_001m.tif"))
-vi <- raster(paste0(path_aerial_aggregated, "muf_merged_001m_visible_vegetation_index.tif"))
-rm <- raster(paste0(path_aerial_aggregated, "geonode_muf_merged_001m_redness_index_mean_21.tif"))
+url <- "http://www.ldbv.bayern.de/file/zip/5619/DOP%2040_CIR.zip"
+res <- curl::curl_download(url, paste0(path_data,"testdata.zip"))
+fn  <- grep(".tif", unzip(res,list = TRUE)$Name,value = TRUE)
+unzip(res,fn , exdir = path_data, junkpaths = TRUE, overwrite = TRUE)
+
+#' # first initialisation of the OTB environment
+initOTB()
+
+traindata<-rgdal::readOGR("../inst/data/","train")
+saveRDS(traindata,"../inst/data/train")
+train<- readRDS("../inst/data/train")
+rgb <- raster::stack(file.path(path_data,basename(fn)))
+vi  <- satelliteTools::rgbIndices(rgb,rgbi = c("VVI"))
+rm  <-  satelliteTools::otbLocalStat(x=satelliteTools::rgbIndices(rgb,rgbi = c("RI")),radius=21,path_output =path_data)
+
 x <- stack(rgb, vi, rm)
 
-poly <- readOGR(paste0(path_landcover_training_areas, "muf_training_final.shp"),
-              "muf_training_final")
+poly <- readRDS("../inst/data/train")
 
-data <- sampleRasterFromPolygons(x, poly, nbr = 50)
+data <- satelliteTools::sampleRasterFromPolygons(x, poly, nbr = 50)
 
 writeOGR(data, paste0(path_landcover, "muf_training_data.shp"), "muf_training_data",
          driver = "ESRI Shapefile", overwrite_layer = TRUE)
