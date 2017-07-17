@@ -32,7 +32,7 @@
 #' @references
 #'
 #' @examples
-#' \notrun{
+#' \dontrun{
 #' }
 #'
 #' @export extractFromRasterSnips

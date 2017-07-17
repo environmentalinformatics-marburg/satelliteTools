@@ -31,6 +31,6 @@ sat <- satellite(files)
 
 Image metrics will be calculated using wrapper functions for the glcm package
 developed by Alex Zvoleff.
-```{r}
+```{r, eval=FALSE}
 imageTextures(sat, bcde = "B003n", window = c(5,5), statistics = "mean")
 ```

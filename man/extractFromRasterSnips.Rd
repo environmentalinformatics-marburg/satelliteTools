@@ -5,7 +5,8 @@
 \title{Extract data from \code{Raster*}  snips based on selector from 
 \code{Spatial*} object}
 \usage{
-extractFromRasterSnips(raster, spatial, selector = NULL, buffer = NULL)
+extractFromRasterSnips(raster, spatial, selector = NULL, buffer = 0,
+  mahal = FALSE)
 }
 \arguments{
 \item{raster}{\code{Raster*} object}
@@ -16,8 +17,11 @@ extractFromRasterSnips(raster, spatial, selector = NULL, buffer = NULL)
 unique value of the selector variable is created (e.g. if one has multiple
 observations per single geographical location).}
 
-\item{buffer}{Buffer size (default NULL does not use buffer) if the mean and
+\item{buffer}{Buffer size (default 0 does not add a buffer) if the mean and
 standard deviation within the buffer should be retruned, too.}
+
+\item{mahal}{Compute mahalanobis distance mean, standard deviation and 
+variance.}
 }
 \value{
 A \code{SpatialPointDataFrame} object with the values of the raster added to the attribute
@@ -25,8 +29,9 @@ table.
 }
 \description{
 Extract data from \code{Raster*} snips based on selector from 
-\code{Spatial*} objects. Aside from the actual raster values, the mean and
-standard deviation of raster values within a buffer can be returned.
+\code{Spatial*} objects. Aside from the actual raster values, the mean, 
+standard deviation, variance as well as the same values based on the 
+mahalanobis distance within a buffer can be returned.
 
 This function is usefull if the snips have been
 computed by \code{\link{snipRaster}} using a selector ID since in this case,
@@ -34,7 +39,7 @@ the sequence of snips is not related to the sequence of \code{Spatial*}
 entities in the vector layer.
 }
 \examples{
-\\notrun{
+\dontrun{
 }
 
 }

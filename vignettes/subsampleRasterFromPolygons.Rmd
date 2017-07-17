@@ -10,10 +10,9 @@ vignette: >
 ---
 
 
-```{r}
-library(raster)
+```{r, eval=FALSE}
+library(satelliteTools)
 library(rgdal)
-library(sp)
 
 path_data <- tmpDir()
 rasterOptions(tmpdir = path_data)

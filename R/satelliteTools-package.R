@@ -12,7 +12,9 @@
 #' \emph{Maintainer:} Environmental Informatics \email{admin@@environmentalinformatics-marburg.de}
 #'
 #' @import glcm methods raster Rcpp RcppArmadillo RStoolbox satellite rgeos sp rgdal
+#' @importFrom stats mahalanobis median prcomp princomp sd var
 #' @importFrom stats4 plot
+#' @importFrom utils glob2rx
 #' 
 #' @useDynLib satelliteTools
 #' 
