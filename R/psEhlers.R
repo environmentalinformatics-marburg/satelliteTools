@@ -67,9 +67,7 @@ NULL
 #   fft with large images)
 
 # Function using satellite object ----------------------------------------------
-#' 
 #' @rdname psEhlers
-#'
 setMethod("psEhlers", 
           signature(x = "Satellite"), 
           function(x, res.method = "ngb", filter = list(win = "Han",
@@ -126,9 +124,7 @@ setMethod("psEhlers",
 
 
 # Function using raster::RasterStack object ------------------------------------
-#' 
 #' @rdname psEhlers
-#'
 setMethod("psEhlers", 
           signature(x = "RasterStack"),
           function(x, PAN, res.method = "ngb", filter = list(win = "Han",

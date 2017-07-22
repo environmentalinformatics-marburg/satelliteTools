@@ -3,10 +3,10 @@
 \docType{methods}
 \name{sampleRasterFromPolygons}
 \alias{sampleRasterFromPolygons}
+\alias{sampleRasterFromPolygons,Satellite-method}
+\alias{sampleRasterFromPolygons,RasterStack-method}
 \alias{sampleRasterFromPolygons,RasterBrick-method}
 \alias{sampleRasterFromPolygons,RasterLayer-method}
-\alias{sampleRasterFromPolygons,RasterStack-method}
-\alias{sampleRasterFromPolygons,Satellite-method}
 \title{Sample raster values from polygons}
 \usage{
 \S4method{sampleRasterFromPolygons}{Satellite}(x, bcde, mask = NULL, ...)
@@ -48,4 +48,3 @@ The method is a wrapper for raster:extract with some extensions
 \references{
 None.
 }
-

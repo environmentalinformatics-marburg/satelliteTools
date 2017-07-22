@@ -28,9 +28,7 @@ if ( !isGeneric("otbLocalStat") ) {
 NULL
 
 # Function using RasterBrick ---------------------------------------------------
-#' 
 #' @rdname otbLocalStat
-#'
 setMethod("otbLocalStat", 
           signature(x = "RasterBrick"), 
           function(x,
@@ -62,9 +60,7 @@ setMethod("otbLocalStat",
 
 
 # Function using RasterLayer ---------------------------------------------------
-#' 
 #' @rdname otbLocalStat
-#'
 setMethod("otbLocalStat", 
           signature(x = "RasterLayer"), 
           function(x,
@@ -88,9 +84,7 @@ setMethod("otbLocalStat",
 
 
 # Function using RasterStack ---------------------------------------------------
-#' 
 #' @rdname otbLocalStat
-#'
 setMethod("otbLocalStat", 
           signature(x = "RasterStack"), 
           function(x,
@@ -114,9 +108,7 @@ setMethod("otbLocalStat",
 
 
 # Function using GeoTiff -------------------------------------------------------
-#' 
 #' @rdname otbLocalStat
-#'
 setMethod("otbLocalStat", 
           signature(x = "character"), 
           function(x,

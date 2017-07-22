@@ -69,4 +69,3 @@ otbcli_MeanShiftSmoothing(input=paste0(getwd(),"4490600_5321400.tif"),spatialr=5
 \author{
 Thomas Nauss
 }
-

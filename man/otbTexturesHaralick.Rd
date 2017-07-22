@@ -135,11 +135,10 @@ initOTB()
 otbTexturesHaralick(x=file.path(getwd(),basename(grep(".tif", unzip(res,list = TRUE)$Name,value = TRUE))))
 }
 }
-\author{
-Chris Reudenbach, Thomas Nauss
-}
 \references{
 Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for Image Classification. IEEE Transactions on Systems, Man and Cybernetics. SMC-3(6):610-620.\cr
 \href{https://www.orfeo-toolbox.org/packages/OTBSoftwareGuide.pdf}{Orfeo Toolbox Sofware Guide, 2016}
 }
-
+\author{
+Chris Reudenbach, Thomas Nauss
+}

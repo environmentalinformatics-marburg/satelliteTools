@@ -3,9 +3,9 @@
 \docType{methods}
 \name{panSharp}
 \alias{panSharp}
-\alias{panSharp,RasterLayer-method}
-\alias{panSharp,RasterStack-method}
 \alias{panSharp,Satellite-method}
+\alias{panSharp,RasterStack-method}
+\alias{panSharp,RasterLayer-method}
 \title{Pan sharpen low resolution satellite channels by using the high resolution 
 panchromatic channel.}
 \usage{
@@ -98,4 +98,3 @@ PAN sharpening articles \cr
 - \url{http://remotesensing.spiedigitallibrary.org/article.aspx?articleid=1726558} \cr
 - \url{http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=1368950&url=http\%3A\%2F\%2Fieeexplore.ieee.org\%2Fxpls\%2Fabs_all.jsp\%3Farnumber\%3D1368950}
 }
-

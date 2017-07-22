@@ -100,9 +100,7 @@ NULL
 
 
 # Function using RasterBrick ---------------------------------------------------
-#' 
 #' @rdname otbTexturesHaralick
-#'
 setMethod("otbTexturesHaralick", 
           signature(x = "RasterBrick"), 
           function(x,
@@ -142,9 +140,7 @@ setMethod("otbTexturesHaralick",
 
 
 # Function using RasterLayer ---------------------------------------------------
-#' 
 #' @rdname otbTexturesHaralick
-#'
 setMethod("otbTexturesHaralick", 
           signature(x = "RasterLayer"), 
           function(x,
@@ -174,9 +170,7 @@ setMethod("otbTexturesHaralick",
 
 
 # Function using RasterStack ---------------------------------------------------
-#' 
 #' @rdname otbTexturesHaralick
-#'
 setMethod("otbTexturesHaralick", 
           signature(x = "RasterStack"), 
           function(x,
@@ -205,9 +199,7 @@ setMethod("otbTexturesHaralick",
           })
 
 # Function using GeoTiff -------------------------------------------------------
-#' 
 #' @rdname otbTexturesHaralick
-#'
 setMethod("otbTexturesHaralick", 
           signature(x = "character"), 
           function(x,

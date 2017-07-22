@@ -47,11 +47,8 @@ NULL
 
 
 # Function using satellite object ----------------------------------------------
-#' 
 #' @return Satellite object with added atmospheric corrected layers
-#' 
 #' @rdname calcHistMatch
-#'
 setMethod("calcHistMatch", 
           signature(x = "Satellite"), 
           function(x, target, bcde = NULL, minv = 0L, maxv = 1023L, plot = TRUE,
@@ -89,11 +86,8 @@ setMethod("calcHistMatch",
 
 
 # Function using raster::RasterStack object ------------------------------------
-#' 
 #' @return raster::RasterStack object with atmospheric corrected layers
-#' 
 #' @rdname calcHistMatch
-#'
 setMethod("calcHistMatch", 
           signature(x = "RasterStack"), 
           function(x, target, minv = 0L, maxv = 1023L, plot = TRUE, use_cpp = TRUE){
@@ -108,11 +102,8 @@ setMethod("calcHistMatch",
 
 
 # Function using raster::RasterLayer object ------------------------------------
-#' 
 #' @return raster::RasterLayer object with atmospheric corrected layer
-#' 
 #' @rdname calcHistMatch
-#'
 setMethod("calcHistMatch", 
           signature(x = "RasterLayer"), 
           function(x, target, minv = 0L, maxv = 1023L, plot = TRUE, use_cpp = TRUE){

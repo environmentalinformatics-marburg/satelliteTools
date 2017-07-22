@@ -13,4 +13,3 @@ set output directory to working_directory/outpathOTB if not supplied for OTB fun
 \dontrun{
 }
 }
-

@@ -4,8 +4,8 @@
 \name{solarHourAngle}
 \alias{solarHourAngle}
 \alias{solarHourAngle,POSIXt-method}
-\alias{solarHourAngle,Raster-method}
 \alias{solarHourAngle,character-method}
+\alias{solarHourAngle,Raster-method}
 \title{Compute solar hour angle}
 \usage{
 \S4method{solarHourAngle}{POSIXt}(x, unit = c("radians", "degrees"))
@@ -46,4 +46,3 @@ positive during the afternoon).
 solarHourAngle(Sys.time(), unit = "degrees")
 
 }
-

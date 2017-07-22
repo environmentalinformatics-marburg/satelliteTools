@@ -22,4 +22,3 @@ during a rsession you will have full access to OTB via the command line
 \dontrun{
 }
 }
-

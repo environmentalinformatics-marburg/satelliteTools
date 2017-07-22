@@ -4,8 +4,8 @@
 \name{solarIncidenceAngle}
 \alias{solarIncidenceAngle}
 \alias{solarIncidenceAngle,POSIXt-method}
-\alias{solarIncidenceAngle,Raster-method}
 \alias{solarIncidenceAngle,character-method}
+\alias{solarIncidenceAngle,Raster-method}
 \title{Compute solar incidence angle}
 \usage{
 \S4method{solarIncidenceAngle}{POSIXt}(x, dem, formula = c("Cooper",
@@ -72,4 +72,3 @@ Hoboken, New Jersey, ISBN: 978-0-470-87366-3,
 \code{\link{declination}}, \code{\link{solarHourAngle}}, 
 \code{\link{terrain}}.
 }
-

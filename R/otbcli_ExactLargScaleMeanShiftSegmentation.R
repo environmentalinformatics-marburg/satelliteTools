@@ -32,9 +32,7 @@ NULL
 
 
 # Function using GeoTiff -------------------------------------------------------
-#' 
 #' @rdname otbcli_ExactLargeScaleMeanShiftSegmentation
-#'
 setMethod("otbcli_ExactLargeScaleMeanShiftSegmentation", 
           signature(x = "character"), 
           function(x,

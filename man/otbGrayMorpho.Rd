@@ -51,4 +51,3 @@ raster::plot(gm[[1]])
 \author{
 Chris Reudenbach
 }
-

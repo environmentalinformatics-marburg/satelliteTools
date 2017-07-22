@@ -79,10 +79,9 @@ stats=c("mean", "variance", "homogeneity"))
 raster::plot(unlist(unlist(glcm$size_3$X4490600_5321400.1)))
 }
 }
-\author{
-Hanna Meyer
-}
 \seealso{
 \code{\link{glcm}}
 }
-
+\author{
+Hanna Meyer
+}

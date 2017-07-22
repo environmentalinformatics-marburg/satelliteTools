@@ -3,8 +3,8 @@
 \docType{methods}
 \name{pca}
 \alias{pca}
-\alias{pca,RasterStack-method}
 \alias{pca,Satellite-method}
+\alias{pca,RasterStack-method}
 \alias{pca,list-method}
 \title{Calculate PCA}
 \usage{
@@ -65,4 +65,3 @@ Benjamin Leutner and Ned Horning (2016). RStoolbox: Tools for Remote Sensing
 Data Analysis. R package version 0.1.6. 
 https://CRAN.R-project.org/package=RStoolbox
 }
-

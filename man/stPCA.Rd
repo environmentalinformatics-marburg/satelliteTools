@@ -19,4 +19,3 @@ Compute principal component analysis
 \dontrun{
 }
 }
-

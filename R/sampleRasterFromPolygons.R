@@ -33,9 +33,7 @@ NULL
 
 
 # Function using satellite object ----------------------------------------------
-#' 
 #' @rdname sampleRasterFromPolygons
-#'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "Satellite"), 
           function(x, bcde, mask=NULL, ...){
@@ -44,9 +42,7 @@ setMethod("sampleRasterFromPolygons",
 
 
 # Function using raster::RasterStack object ------------------------------------
-#' 
 #' @rdname sampleRasterFromPolygons
-#'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "RasterStack"), 
           function(x, poly, nbr = 50, res = raster::res(x), ...){
@@ -59,9 +55,7 @@ setMethod("sampleRasterFromPolygons",
           })
 
 # Function using raster::RasterStack object ------------------------------------
-#' 
 #' @rdname sampleRasterFromPolygons
-#'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "RasterBrick"), 
           function(x, poly, nbr = 50, res = raster::res(x), ...){
@@ -94,11 +88,9 @@ setMethod("sampleRasterFromPolygons",
 
 
 # Function using raster::RasterLayer object ------------------------------------
-#' 
 #' @param mask A \code{raster::RasterLayer} in which area of interest are marked
 #' with 1, NA otherwise. 
 #' @rdname sampleRasterFromPolygons
-#'
 setMethod("sampleRasterFromPolygons", 
           signature(x = "RasterLayer"), 
           function(x, poly, nbr = NULL,...){

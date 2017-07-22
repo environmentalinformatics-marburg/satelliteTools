@@ -19,4 +19,3 @@ Compute spectral remote sensing pixel-based indices
 \dontrun{
 }
 }
-

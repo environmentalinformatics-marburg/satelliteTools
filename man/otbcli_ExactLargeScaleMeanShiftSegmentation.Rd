@@ -51,4 +51,3 @@ otbcli_ExactLargeScaleMeanShiftSegmentation(input=paste0(getwd(),"4490600_532140
 \author{
 Thomas Nauss
 }
-

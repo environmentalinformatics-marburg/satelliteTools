@@ -43,10 +43,9 @@ entities in the vector layer.
 }
 
 }
-\author{
-Thomas Nauss
-}
 \references{
 
 }
-
+\author{
+Thomas Nauss
+}

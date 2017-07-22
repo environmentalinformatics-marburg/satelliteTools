@@ -44,4 +44,3 @@ initOTB("/usr/bin/")
 \author{
 CR
 }
-

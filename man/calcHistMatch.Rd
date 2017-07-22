@@ -3,9 +3,9 @@
 \docType{methods}
 \name{calcHistMatch}
 \alias{calcHistMatch}
-\alias{calcHistMatch,RasterLayer-method}
-\alias{calcHistMatch,RasterStack-method}
 \alias{calcHistMatch,Satellite-method}
+\alias{calcHistMatch,RasterStack-method}
+\alias{calcHistMatch,RasterLayer-method}
 \title{Illumination correction across scenes using histogram matching}
 \usage{
 \S4method{calcHistMatch}{Satellite}(x, target, bcde = NULL, minv = 0L,
@@ -69,4 +69,3 @@ Morovic J, Shaw J, Sun P-L (2002) A fast, non-iterative and exact
 histogram matching algorithm. Pattern Recognition Letters 23/1-3: 127-135, 
 doi:10.1016/S0167-8655(01)00107-6.
 }
-

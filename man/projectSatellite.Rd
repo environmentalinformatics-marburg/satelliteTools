@@ -42,4 +42,3 @@ sat <- satellite(files)
 
 projectSatellite(sat, crs = "+init=epsg:4326", band_codes = "B001n")
 }
-

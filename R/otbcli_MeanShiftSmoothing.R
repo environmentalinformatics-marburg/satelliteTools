@@ -33,9 +33,7 @@ if ( !isGeneric("otbcli_MeanShiftSmoothing") ) {
 NULL
 
 # Function using RasterBrick ---------------------------------------------------
-#' 
 #' @rdname otbcli_MeanShiftSmoothing
-#'
 setMethod("otbcli_MeanShiftSmoothing", 
           signature(x = "RasterBrick"), 
           function(x,
@@ -74,9 +72,7 @@ setMethod("otbcli_MeanShiftSmoothing",
 
 
 # Function using RasterLayer ---------------------------------------------------
-#' 
 #' @rdname otbcli_MeanShiftSmoothing
-#'
 setMethod("otbcli_MeanShiftSmoothing", 
           signature(x = "RasterLayer"), 
           function(x,
@@ -104,9 +100,7 @@ setMethod("otbcli_MeanShiftSmoothing",
 
 
 # Function using RasterStack ---------------------------------------------------
-#' 
 #' @rdname otbcli_MeanShiftSmoothing
-#'
 setMethod("otbcli_MeanShiftSmoothing", 
           signature(x = "RasterStack"), 
           function(x,
@@ -134,9 +128,7 @@ setMethod("otbcli_MeanShiftSmoothing",
 
 
 # Function using GeoTiff -------------------------------------------------------
-#' 
 #' @rdname otbcli_MeanShiftSmoothing
-#'
 setMethod("otbcli_MeanShiftSmoothing", 
           signature(x = "character"), 
           function(x,

@@ -33,9 +33,7 @@ NULL
 
 
 # Function using GeoTiff -------------------------------------------------------
-#' 
 #' @rdname otbcli_LSMSSmallRegionsMerging
-#'
 setMethod("otbcli_LSMSSmallRegionsMerging", 
           signature(x = "character"), 
           function(x,

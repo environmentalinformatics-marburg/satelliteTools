@@ -3,8 +3,8 @@
 \docType{methods}
 \name{psEhlers}
 \alias{psEhlers}
-\alias{psEhlers,RasterStack-method}
 \alias{psEhlers,Satellite-method}
+\alias{psEhlers,RasterStack-method}
 \title{Pan sharpen low resolution satellite channels by using the high resolution 
 panchromatic channel.}
 \usage{
@@ -69,4 +69,3 @@ Weinhaus, F., 2011: ImageMagick v6 Examples -- Fourier Transforms. \url{http://w
 
 Butz, T., 2011: Fouriertransformation fuer Fussgaenger. 7., aktualisierte Aufl. Vieweg + Teubner, Wiesbaden. (German)
 }
-

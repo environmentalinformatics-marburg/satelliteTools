@@ -24,4 +24,3 @@ Assign variable in .GlobalEnv
 \author{
 Chris Reudenbach
 }
-

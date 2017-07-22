@@ -23,10 +23,9 @@ a second vector based on the time information in the first vector.
 }
 
 }
-\author{
-Thomas Nauss
-}
 \references{
 NONE
 }
-
+\author{
+Thomas Nauss
+}

@@ -48,4 +48,3 @@ otbedge(input=paste0(getwd(),"4490600_5321400.tif"),filter = "sobel")
 \author{
 Chris Reudenbach
 }
-

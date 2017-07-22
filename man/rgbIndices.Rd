@@ -3,15 +3,14 @@
 \name{rgbIndices}
 \alias{rgbIndices}
 \title{RGB indices}
-\usage{
-rgbIndices(rgb, rgbi = c("VVI", "VARI", "NDTI", "RI", "CI", "BI", "SI", "HI",
-  "TGI", "GLI", "NGRDI"))
-}
 \arguments{
 \item{rgb}{a \code{RasterStack} or \code{RasterBrick} object. 3
 bands are mandatory (for RGB indices they should be: "red", "green" and "blue").}
 
 \item{rgbi}{the implemented RGB indices currently \link{seealso}}
+}
+\value{
+A \code{RasterStack} object.
 }
 \description{
 This function calculates various spectral indices from a RGB. It returns at least red green and blue as splitted channels in a stack. Additionally you can choose RGB indices.
@@ -27,11 +26,6 @@ plotRGB(img)
 rgbi <- rgbI(img)
 plot(rgbI, col = gray(255:0/255))
 }
-
-
-}
-\author{
-Chris Reudenbach
 }
 \references{
 Planetary Habitability Laboratory (2015): Visible Vegetation Index (VVI). Available online via \url{http://phl.upr.edu/projects/visible-vegetation-index-vvi}.
@@ -66,4 +60,6 @@ For a comprehensive overview of remote sensing indices have a look at: \url{http
 Wavelength ranges for overlapping digital camera bands are: red 580-670 nm, green 480-610 nm, and blue 400-520 nm (Hunt et al., 2005)
 http://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=2161&context=usdaarsfacpub
 }
-
+\author{
+Chris Reudenbach
+}

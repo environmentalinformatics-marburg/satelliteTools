@@ -23,4 +23,3 @@ Add a variable to the system path
 \author{
 Chris Reudenbach
 }
-

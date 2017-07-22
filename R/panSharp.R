@@ -84,9 +84,7 @@ NULL
 
 
 # Function using satellite object ----------------------------------------------
-#' 
 #' @rdname panSharp
-#'
 setMethod("panSharp", 
           signature(x = "Satellite"), 
           function(x, filter = c("mean", "Gauss", "median"), 
@@ -128,9 +126,7 @@ setMethod("panSharp",
 
 
 # Function using raster::RasterStack object ------------------------------------
-#' 
 #' @rdname panSharp
-#'
 setMethod("panSharp", 
           signature(x = "RasterStack"),
           function(x, pan, filter = c("mean", "Gauss", "median"), winsize = 1){
@@ -144,9 +140,7 @@ setMethod("panSharp",
 
 
 # Function using raster::RasterLayer object ------------------------------------
-#' 
 #' @rdname panSharp
-#'
 setMethod("panSharp", 
           signature(x = "RasterLayer"), 
           function(x, pan, pan_lp, filter = c("mean", "Gauss", "median"), 

@@ -33,10 +33,9 @@ buffer.
 }
 
 }
-\author{
-Thomas Nauss
-}
 \references{
 NONE
 }
-
+\author{
+Thomas Nauss
+}

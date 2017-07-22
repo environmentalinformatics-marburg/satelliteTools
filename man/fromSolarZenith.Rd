@@ -3,8 +3,8 @@
 \docType{methods}
 \name{fromSolarZenith}
 \alias{fromSolarZenith}
-\alias{fromSolarZenith,Raster-method}
 \alias{fromSolarZenith,numeric-method}
+\alias{fromSolarZenith,Raster-method}
 \title{Compute hour angle and time from the solar zenith angle}
 \usage{
 \S4method{fromSolarZenith}{numeric}(theta, phi, n, formula = c("Cooper",
@@ -61,4 +61,3 @@ PVEducation (2016) Elevation angle. Available online at
 \seealso{
 \code{\link{declination}}, \code{\link{solarHourAngle}}.
 }
-

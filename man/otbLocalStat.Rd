@@ -58,4 +58,3 @@ otbLocalStat(input=paste0(getwd(),"4490600_5321400.tif"),radius=5)
 \author{
 Chris Reudenbach, Thomas Nauss
 }
-

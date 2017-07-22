@@ -54,7 +54,6 @@ NULL
 
 # Function using satellite object ----------------------------------------------
 #' @rdname pca
-#' 
 setMethod("pca", 
           signature(x = "Satellite"), 
           function(x, bcde, prfx=NULL, return_raster = FALSE, ...){
@@ -84,9 +83,7 @@ setMethod("pca",
 
 
 # Function using raster::RasterStack object ------------------------------------
-#' 
 #' @rdname pca
-#'
 setMethod("pca", 
           signature(x = "RasterStack"), 
           function(x, return_raster = FALSE, ...){
@@ -101,9 +98,7 @@ setMethod("pca",
 
 
 # Function using list object of RasteR* ----------------------------------------
-#' 
 #' @rdname pca
-#'
 setMethod("pca", 
           signature(x = "list"), 
           function(x, ignore_names = FALSE, center = TRUE, scale = TRUE, ...){

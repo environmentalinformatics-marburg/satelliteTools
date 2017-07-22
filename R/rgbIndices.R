@@ -7,8 +7,7 @@
 #' @param rgb a \code{RasterStack} or \code{RasterBrick} object. 3
 #' bands are mandatory (for RGB indices they should be: "red", "green" and "blue").
 #' @param rgbi the implemented RGB indices currently \link{seealso}
-
-#' @return 
+#' @return A \code{RasterStack} object.
 #' @seealso 
 #' A \code{RasterLayer} with the index calculates as:\cr
 #' BI  sqrt((R**2+G**2+B*2)/3 Brightness Index\cr
@@ -60,8 +59,8 @@
 #' rgbi <- rgbI(img)
 #' plot(rgbI, col = gray(255:0/255))
 #' }
-#' 
-#' 
+NULL
+
 rgbIndices<- function(rgb,
                       rgbi=c("VVI","VARI","NDTI","RI","CI","BI","SI","HI","TGI","GLI","NGRDI")) {
   

@@ -46,4 +46,3 @@ otbcli_LSMSSmallRegionsMerging(input=paste0(getwd(),"4490600_5321400.tif"),spati
 \author{
 Thomas Nauss
 }
-

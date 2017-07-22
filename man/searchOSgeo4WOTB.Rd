@@ -22,4 +22,3 @@ provides a pretty good estimation of valid OTB installations on your Windows sys
 \author{
 Chris Reudenbach
 }
-

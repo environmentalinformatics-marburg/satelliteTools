@@ -64,4 +64,3 @@ Roedel W, Wagner T (2011) Physik unserer Umwelt: Die Atmosphaere. Springer:
 Heidelberg, Dordrecht, London, New York, ISBN: 978-3-642-15728-8. Available 
 online at \url{http://cost733class.geo.uni-augsburg.de/moin/iguawiki/data/pages/KursmaterialWS1213_HsKlivar/attachments/Roedel_Die_Atmosphaere.pdf}.
 }
-
