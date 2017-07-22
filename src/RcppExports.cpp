@@ -6,19 +6,82 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP satelliteTools_rcpp_hello_world() {
+// difference
+NumericVector difference(double x, NumericVector y);
+RcppExport SEXP _satelliteTools_difference(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(difference(x, y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// isNA
+LogicalVector isNA(NumericVector x);
+RcppExport SEXP _satelliteTools_isNA(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(isNA(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// naOmit
+NumericVector naOmit(NumericVector x);
+RcppExport SEXP _satelliteTools_naOmit(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(naOmit(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// whichMin
+int whichMin(NumericVector x);
+RcppExport SEXP _satelliteTools_whichMin(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(whichMin(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// barometricFormula
+double barometricFormula(double z, NumericVector gp, NumericVector ta, IntegerVector p);
+RcppExport SEXP _satelliteTools_barometricFormula(SEXP zSEXP, SEXP gpSEXP, SEXP taSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type z(zSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type gp(gpSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ta(taSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(barometricFormula(z, gp, ta, p));
+    return rcpp_result_gen;
+END_RCPP
+}
+// run_barometricFormula
+NumericVector run_barometricFormula(NumericMatrix a, NumericMatrix b, NumericVector dem, IntegerVector p);
+RcppExport SEXP _satelliteTools_run_barometricFormula(SEXP aSEXP, SEXP bSEXP, SEXP demSEXP, SEXP pSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type b(bSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type dem(demSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type p(pSEXP);
+    rcpp_result_gen = Rcpp::wrap(run_barometricFormula(a, b, dem, p));
     return rcpp_result_gen;
 END_RCPP
 }
 // mSpecIndicesCPP
 List mSpecIndicesCPP(NumericVector blue, NumericVector green, NumericVector red, NumericVector nir);
-RcppExport SEXP satelliteTools_mSpecIndicesCPP(SEXP blueSEXP, SEXP greenSEXP, SEXP redSEXP, SEXP nirSEXP) {
+RcppExport SEXP _satelliteTools_mSpecIndicesCPP(SEXP blueSEXP, SEXP greenSEXP, SEXP redSEXP, SEXP nirSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,8 +95,13 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"satelliteTools_rcpp_hello_world", (DL_FUNC) &satelliteTools_rcpp_hello_world, 0},
-    {"satelliteTools_mSpecIndicesCPP", (DL_FUNC) &satelliteTools_mSpecIndicesCPP, 4},
+    {"_satelliteTools_difference", (DL_FUNC) &_satelliteTools_difference, 2},
+    {"_satelliteTools_isNA", (DL_FUNC) &_satelliteTools_isNA, 1},
+    {"_satelliteTools_naOmit", (DL_FUNC) &_satelliteTools_naOmit, 1},
+    {"_satelliteTools_whichMin", (DL_FUNC) &_satelliteTools_whichMin, 1},
+    {"_satelliteTools_barometricFormula", (DL_FUNC) &_satelliteTools_barometricFormula, 4},
+    {"_satelliteTools_run_barometricFormula", (DL_FUNC) &_satelliteTools_run_barometricFormula, 4},
+    {"_satelliteTools_mSpecIndicesCPP", (DL_FUNC) &_satelliteTools_mSpecIndicesCPP, 4},
     {NULL, NULL, 0}
 };
 
