@@ -6,7 +6,8 @@
 #' @param raster \code{Raster*}. Object that should be tiled.
 #' @param tilenbr 'integer'. Vector given the number of tiles in c(x,y) direction.
 #' @param overlap 'integer'. Overlap in pixels between the individual tiles. Default NULL does not include any overlap.
-#' @param outpath 'character'. Path of the output files. Filenames will be taken from the \code{Raster*} layer names.
+#' @param outpath 'character'. Top level path of the output files.
+#' @param subpath 'character'. Path created within each tile path (e.g. for naming the product).
 #'
 #' @return
 #' None. Tiles are written to GeoTiff files in directory \code{outpath}.
@@ -22,7 +23,7 @@
 #' @export tileRaster
 #' @name tileRaster
 #'
-tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
+tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL, subpath = NULL){
   
   if(is.null(outpath)){
     outpath = paste0(getwd(),"/")
@@ -84,7 +85,7 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
     for(t in seq(length(tiles))){
       tile = tiles[[t]]
       lzeros = nchar(as.character(max(unlist(tiles))))
-      subpath = paste0(outpath, "/c", 
+      tilepath = paste0(outpath, "/c", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
                        "-", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tc[2]), 
@@ -92,8 +93,8 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
                        sprintf(paste0("%0", lzeros, "d"), tile$tr[1]), 
                        "-", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tr[2]), "/")
-      if (!dir.exists(subpath))
-        dir.create(subpath)
+      if (!dir.exists(tilepath))
+        dir.create(tilepath)
       filename = paste0(names(rst), "_c", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
                         "-", 
@@ -104,11 +105,15 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
                         sprintf(paste0("%0", lzeros, "d"), tile$tr[2]))
       rst_tile = crop(rst, extent(rst, tile$tr[1], tile$tr[2], tile$tc[1], tile$tc[2]))
       
-      if(!dir.exists(subpath))
-        dir.create(subpath, recursive = TRUE)
+      if(!is.null(subpath)){
+        tilepath = paste0(tilepath, "/", subpath, "/")
+      }
+      
+      if(!dir.exists(tilepath))
+        dir.create(tilepath, recursive = TRUE)
       
       writeRaster(rst_tile, format = "GTiff",
-                  filename = paste0(subpath, filename),  
+                  filename = paste0(tilepath, filename),  
                   bylayer = FALSE, overwrite = FALSE)
     }
     
