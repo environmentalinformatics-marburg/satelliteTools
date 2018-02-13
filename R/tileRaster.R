@@ -84,7 +84,7 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
     for(t in seq(length(tiles))){
       tile = tiles[[t]]
       lzeros = nchar(as.character(max(unlist(tiles))))
-      subpath = paste0(outpath, "c", 
+      subpath = paste0(outpath, "/c", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
                        "-", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tc[2]), 
@@ -103,6 +103,10 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
                         "-", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tr[2]))
       rst_tile = crop(rst, extent(rst, tile$tr[1], tile$tr[2], tile$tc[1], tile$tc[2]))
+      
+      if(!dir.exists(subpath))
+        dir.create(subpath)
+      
       writeRaster(rst_tile, format = "GTiff",
                   filename = paste0(subpath, filename),  
                   bylayer = FALSE, overwrite = FALSE)
