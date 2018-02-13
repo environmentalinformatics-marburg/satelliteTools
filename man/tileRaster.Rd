@@ -4,31 +4,29 @@
 \alias{tileRaster}
 \title{Tile \code{Raster*} object with or without overlap}
 \usage{
-tileRaster(raster, size = -4, overlap = 0, outpath = NULL)
+tileRaster(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL)
 }
 \arguments{
-\item{raster}{\code{Raster*} object}
+\item{raster}{\code{Raster*}. Object that should be tiled.}
 
-\item{size}{Size of the squared tiles (positive is pixel, negative number to be created)}
+\item{tilenbr}{'integer'. Vector given the number of tiles in c(x,y) direction.}
 
-\item{overlap}{Overlap size (default NULL does not use overlap)}
+\item{overlap}{'integer'. Overlap in pixels between the individual tiles. Default NULL does not include any overlap.}
 
-\item{outpath}{Path of the output files (name will be equal to input name)}
+\item{outpath}{'character'. Path of the output files. Filenames will be taken from the \code{Raster*} layer names.}
 }
 \value{
-None
+None. Tiles are written to GeoTiff files in directory \code{outpath}.
 }
 \description{
 Tile \code{Raster*} object using an optional overlap between the tiles.
 }
 \examples{
 \\notrun{
+tileRaster(raster = ndvi, tilenbr = c(5,4), overlap = 30, outpath = modis_tiles)
 }
 
 }
 \references{
 NONE
-}
-\author{
-Thomas Nauss
 }

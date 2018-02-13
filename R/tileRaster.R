@@ -105,7 +105,7 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL){
       rst_tile = crop(rst, extent(rst, tile$tr[1], tile$tr[2], tile$tc[1], tile$tc[2]))
       
       if(!dir.exists(subpath))
-        dir.create(subpath)
+        dir.create(subpath, recursive = TRUE)
       
       writeRaster(rst_tile, format = "GTiff",
                   filename = paste0(subpath, filename),  
