@@ -87,21 +87,21 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL, s
       lzeros = nchar(as.character(max(unlist(tiles))))
       tilepath = paste0(outpath, "/c", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
-                       "-", 
+                       "_", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tc[2]), 
                        "_r", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tr[1]), 
-                       "-", 
+                       "_", 
                        sprintf(paste0("%0", lzeros, "d"), tile$tr[2]), "/")
       if (!dir.exists(tilepath))
         dir.create(tilepath)
       filename = paste0(names(rst), "_c", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
-                        "-", 
+                        "_", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tc[2]), 
                         "_r", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tr[1]), 
-                        "-", 
+                        "_", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tr[2]))
       rst_tile = crop(rst, extent(rst, tile$tr[1], tile$tr[2], tile$tc[1], tile$tc[2]))
       
