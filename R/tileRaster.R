@@ -28,7 +28,7 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL, s
   if(is.null(outpath)){
     outpath = paste0(getwd(),"/")
   }
-
+  
   if(is(raster, "Raster")){
     raster = stack(raster)
   }
@@ -50,16 +50,30 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL, s
   })
   tr[[tilenbr[2]]][2,] = rows
   
+  tr_non_ovlp = tr
+  tc_non_ovlp = tc
+  
+  tr_non_ovlp = lapply(tr_non_ovlp, function(atr){
+    colnames(atr) = "tr_non_ovlp"
+    return(atr)
+  })
+  
+  tc_non_ovlp = lapply(tc_non_ovlp, function(atc){
+    colnames(atc) = "tc_non_ovlp"
+    return(atc)
+  })
+  
+  
   ## Add overlap
   tc[[1]][2,] = tc[[1]][2,] + overlap
   if(length(tc) > 2){
     for(i in seq(2, length(tc)-1)){
-    tc[[i]][1, ] = tc[[i]][1, ] - overlap
-    tc[[i]][2, ] = tc[[i]][2, ] + overlap
+      tc[[i]][1, ] = tc[[i]][1, ] - overlap
+      tc[[i]][2, ] = tc[[i]][2, ] + overlap
     }
   }
   tc[[tilenbr[1]]][1,] = tc[[tilenbr[1]]][1,] - overlap
-
+  
   tr[[1]][2,] = tr[[1]][2,] + overlap
   if(length(tr) > 2){
     for(i in seq(2, length(tr)-1)){
@@ -68,13 +82,16 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL, s
     }
   }
   tr[[tilenbr[2]]][1,] = tr[[tilenbr[2]]][1,] - overlap
-
-
+  
+  
   ## Create tile list
-  tiles = lapply(tr, function(atr){
-    lapply(tc, function(atc){
-      data.frame(tr = atr,
-                 tc = atc)
+  tiles = lapply(seq(length(tr)), function(itr){
+    lapply(seq(length(tc)), function(itc){
+      data.frame(tr = tr[[itr]],
+                 tc = tc[[itc]],
+                 tr_non_ovlp = tr_non_ovlp[[itr]],
+                 tc_non_ovlp = tc_non_ovlp[[itc]]
+      )
     })
   })
   
@@ -86,15 +103,17 @@ tileRaster <- function(raster, tilenbr = c(2, 2), overlap = 0, outpath = NULL, s
       tile = tiles[[t]]
       lzeros = nchar(as.character(max(unlist(tiles))))
       tilepath = paste0(outpath, "/c", 
-                       sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
-                       "_", 
-                       sprintf(paste0("%0", lzeros, "d"), tile$tc[2]), 
-                       "_r", 
-                       sprintf(paste0("%0", lzeros, "d"), tile$tr[1]), 
-                       "_", 
-                       sprintf(paste0("%0", lzeros, "d"), tile$tr[2]), "/")
+                        sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
+                        "_", 
+                        sprintf(paste0("%0", lzeros, "d"), tile$tc[2]), 
+                        "_r", 
+                        sprintf(paste0("%0", lzeros, "d"), tile$tr[1]), 
+                        "_", 
+                        sprintf(paste0("%0", lzeros, "d"), tile$tr[2]), "/")
       if (!dir.exists(tilepath))
         dir.create(tilepath)
+      metafilename = paste0(tilepath, "/", basename(tilepath), ".txt")
+      write.csv(tile, file = metafilename, row.names = FALSE)
       filename = paste0(names(rst), "_c", 
                         sprintf(paste0("%0", lzeros, "d"), tile$tc[1]), 
                         "_", 
