@@ -2,6 +2,7 @@
 
 export(add2Path)
 export(calcHistMatch)
+export(combineRasterTiles)
 export(declination)
 export(extractFromRasterSnips)
 export(fromSolarZenith)
